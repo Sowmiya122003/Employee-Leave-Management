@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="adminHMD professional admin dashboard template">
-  <title>Dashboard | adminHMD</title>
+  <title>Dashboard</title>
 
   <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
   <link rel="stylesheet" href="{{ asset('vendors/bootstrap-icons/bootstrap-icons.css') }}">
@@ -20,24 +20,24 @@
         <a class="brand-mark" href="index.html" aria-label="adminHMD dashboard">
           <span class="brand-icon"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i></span>
           <span class="brand-copy">
-            <span class="brand-title">adminHMD</span>
+            <span class="brand-title">admin</span>
             <span class="brand-subtitle">Admin Template</span>
           </span>
         </a>
       </div>
 
       <nav class="sidebar-nav">
-        <a class="nav-link active" href="index.html" aria-current="page">
+        <a class="nav-link active" href="{{ route('admin.dashboard') }}" aria-current="page">
           <span class="nav-icon"><i class="bi bi-speedometer2" aria-hidden="true"></i></span>
           <span class="nav-text">Dashboard</span>
         </a>
-        <a class="nav-link" href="users.html">
+        <a class="nav-link" href="{{route('employee-list')}}">
           <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
-          <span class="nav-text">Users</span>
+          <span class="nav-text">Employees</span>
         </a>
-        <a class="nav-link" href="add-user.html">
+        <a class="nav-link" href="{{route('admin.add.employee')}}">
           <span class="nav-icon"><i class="bi bi-person-plus" aria-hidden="true"></i></span>
-          <span class="nav-text">Add User</span>
+          <span class="nav-text">Add Employee </span>
         </a>
         <a class="nav-link" href="profile.html">
           <span class="nav-icon"><i class="bi bi-person-badge" aria-hidden="true"></i></span>
@@ -78,8 +78,8 @@
       </nav>
 
       <div class="sidebar-user">
-        <img class="avatar-img avatar-md sidebar-user-avatar" src="{{asset('images/avatar/avatar.jpg')}}" alt="Admin Hasan">
-        <strong>Admin Hasan</strong>
+        <img class="avatar-img avatar-md sidebar-user-avatar" src="{{asset('images/avatar/avatar.jpg')}}" alt="">
+        <strong>{{ auth()->user()->name }}</strong>
         <small>Active Workspace</small>
       </div>
 
@@ -130,14 +130,14 @@
 
             <div class="dropdown">
               <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="avatar-img avatar-sm" src="{{asset('images/avatar/avatar.jpg')}}" alt="Admin Hasan">
-                <span class="profile-name d-none d-sm-inline">Admin Hasan</span>
+                <img class="avatar-img avatar-sm" src="{{asset('images/avatar/avatar.jpg')}}" alt="">
+                <span class="profile-name d-none d-sm-inline">{{auth()->user()->name}}</span>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
                 <li><a class="dropdown-item" href="profile.html">Profile</a></li>
                 <li><a class="dropdown-item" href="settings.html">Account settings</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="login.html">Sign out</a></li>
+                <li><a class="dropdown-item" href="{{route('logout')}}">Sign out</a></li>
               </ul>
             </div>
           </div>

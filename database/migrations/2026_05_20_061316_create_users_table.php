@@ -14,18 +14,18 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
-            $table->foreignId('team_id')->constrained('teams')->onDelete('cascade');
+            $table->foreignId('team_id')->constrained('teams')->onDelete('cascade')->nullable();
             $table->string('name');
             $table->string('job_title');
             $table->string('email')->unique();
             $table->string('phone_no')->unique();
             $table->date('date_of_birth');
-            $table->text('address');
+            $table->text('address')->nullable();
             $table->enum('gender',['F','M','O']);
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->boolean('status')->default(1);
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
