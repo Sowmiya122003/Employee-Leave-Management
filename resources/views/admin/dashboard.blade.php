@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('content')
+<!-- <h1>{{ auth()->user()->full_name }}</h1> -->
 <main class="dashboard-content">
         <div class="container-fluid px-3 px-lg-4 py-4">
           <div class="page-heading">

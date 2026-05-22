@@ -27,8 +27,27 @@
                         <th>Added By </th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                    @foreach($users as $data)
+                        <tr>
+                            <td>{{ $data->full_name}}</td>
+                            <td>{{ $data->email}}</td>
+                            <td>{{ $data->phone}}</td>
+                            @if( $data->gender=='M')
+                            <td>Male</td>
+                            @elseif( $data->gender=='F')
+                            <td>Female</td>
+                            @else
+                            <td>Others</td>
+                            @endif
+                            <td>{{ $data->role_name }}</td>
+                            <td>{{ $data->creator->full_name }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
             </table>
+        </div>
+    </main>
 
 @endsection
 @push('styles')

@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('leave_balances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('type_of_leave_id')->constrained('leave_types');
-            $table->integer('leaves_used');
-            $table->integer('remaining_leaves');
-            $table->integer('carry_forward_days');
+            $table->foreignId('usesr_id')->constrained('users');
+            $table->year('company_year');
+            $table->unsignedInteger('total_leaves_taken');
+            $table->unsignedInteger('unpaid_leaves')->default(0);
+            $table->json('carry_forward_days');
             // $table->timestamps();
         });
     }

@@ -11,8 +11,8 @@
                         <p class="text-muted mb-0">Create a new user account with role and team assignments.</p>
                     </div>
                 </div>
-                <div class="heading-actions"><a class="btn btn-outline-secondary btn-sm" href="users.html"><i
-                            class="bi bi-arrow-left" aria-hidden="true"></i> Back to Users</a></div>
+                <div class="heading-actions"><a class="btn btn-outline-secondary btn-sm" href="{{route('admin.dashboard')}}"><i
+                            class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a></div>
             </div>
 
             <section class="row g-3">
@@ -29,7 +29,7 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label" for="name">Name</label>
-                                <input class="form-control" id="name" type="text" name="name" required>
+                                <input class="form-control" id="name" type="text" name="full_name" required>
                                 <div class="invalid-feedback">Name is required.</div>
                             </div>
                             <div class="col-md-6">
@@ -39,7 +39,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="phone">Phone</label>
-                                <input class="form-control" name="phone_no" id="phone" type="tel" required>
+                                <input class="form-control" name="phone" id="phone" type="tel" required>
                                 <div class="invalid-feedback">Phone number is required.</div>
                             </div>
                             <div class="col-md-6">
@@ -64,20 +64,18 @@
                                 <label class="form-label" for="role">Role</label>
                                 <select class="form-select" name="role_id" id="role" required>
                                     <option value="">Choose role</option>
-                                    <option value="1">Admin</option>
+                                    <!-- <option value="1">Admin</option> -->
                                     <option value="2">Manager</option>
                                     <option value="3">Employee</option>
                                 </select>
                                 <div class="invalid-feedback">Choose a role.</div>
                             </div>
                             <div class="col-md-6"><label class="form-label" for="team">Team</label>
-                                <select
-                                    class="form-select" id="team" required>
+                                <select class="form-select" id="team" name="team_id" required>
                                     <option value="">Choose team</option>
-                                    <option>Operations</option>
-                                    <option>Sales</option>
-                                    <option>Content</option>
-                                    <option>Finance</option>
+                                    @foreach($teams as $singleteam)
+                                    <option value="{{ $singleteam->id }}">{{ $singleteam->team_name }}</option>
+                                    @endforeach
                                 </select>
                                 <div class="invalid-feedback">Choose a team.</div>
                             </div>
@@ -87,7 +85,7 @@
                         </div>
                         <div class="d-flex flex-wrap justify-content-end gap-2 mt-4">
                             <a class="btn btn-outline-secondary"
-                                href="users.html">Cancel</a>
+                                href="{{route('admin.dashboard')}}">Cancel</a>
                                 <button class="btn btn-primary" type="submit"><i
                                     class="bi bi-person-check" aria-hidden="true"></i> Create User</button></div>
                     </form>

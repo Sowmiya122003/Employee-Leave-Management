@@ -10,7 +10,7 @@ class AuthController extends Controller
 {
     public function login(){
         if (Auth::check()){
-            return view('admin.dashboard');
+                return view('admin.dashboard');
         }
         return view('auth.login');
     }
@@ -21,25 +21,23 @@ class AuthController extends Controller
         return view('auth.register');
     }
     public function registersubmit(Request $request){
+        // dd($request->toArray());
         $validated = $request->validate([
-            'name' => 'required|min:5',
-            'email' => 'required|unique:users|email',
-            'phone_no' => 'required|unique:users',
+            'full_name' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required',
             'gender' => 'required',
-            'date_of_birth' => 'required',
-            'password'=>'required'
-            ]);
-        $user = User::create([
-            'name'=>$request->name,
-            'email'=>$request->email,
-            'phone_no'=> $request->phone_no,
-            'gender'=>$request->gender,
-            'date_of_birth'=>$request->date_of_birth,
-            'role_id'=>1,
-            'job_title'=>'Admin',
-            'address'=>$request->address,
-            'password'=>$request->password
+            'date_of_birth' => 'required|date',
+            'address' => 'nullable|string',
+            'password' => 'required|min:8',
         ]);
+        $validated['password'] = Hash::make($validated['password']);
+        $validated['role_id']=1;
+        $validated['job_title'] = 'Admin';    
+        // dd($validated);
+        // $user= new User();
+        // dd($user->getFillable());
+        $user = User::create($validated);
         // dd($user);
         return redirect()->route('login');
     }

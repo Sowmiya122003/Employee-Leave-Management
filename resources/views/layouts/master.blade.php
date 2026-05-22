@@ -39,13 +39,13 @@
           <span class="nav-icon"><i class="bi bi-person-plus" aria-hidden="true"></i></span>
           <span class="nav-text">Add Employee </span>
         </a>
-        <a class="nav-link" href="profile.html">
+        <a class="nav-link" href="{{ route('holiday.list') }}">
           <span class="nav-icon"><i class="bi bi-person-badge" aria-hidden="true"></i></span>
-          <span class="nav-text">Profile</span>
+          <span class="nav-text">Company Holiday </span>
         </a>
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="{{route('team.list')}}">
           <span class="nav-icon"><i class="bi bi-bar-chart-line" aria-hidden="true"></i></span>
-          <span class="nav-text">Charts</span>
+          <span class="nav-text">Teams </span>
         </a>
         <a class="nav-link" href="tables.html">
           <span class="nav-icon"><i class="bi bi-table" aria-hidden="true"></i></span>
@@ -78,8 +78,8 @@
       </nav>
 
       <div class="sidebar-user">
-        <img class="avatar-img avatar-md sidebar-user-avatar" src="{{asset('images/avatar/avatar.jpg')}}" alt="">
-        <strong>{{ auth()->user()->name }}</strong>
+        <img class="avatar-img avatar-md sidebar-user-avatar" src="{{asset('images/avatar/avatar.jpg')}}" alt="avatar">
+        <h6>{{ auth()->user()->full_name }}</h6>
         <small>Active Workspace</small>
       </div>
 
@@ -130,8 +130,8 @@
 
             <div class="dropdown">
               <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img class="avatar-img avatar-sm" src="{{asset('images/avatar/avatar.jpg')}}" alt="">
-                <span class="profile-name d-none d-sm-inline">{{auth()->user()->name}}</span>
+                <img class="avatar-img avatar-sm" src="{{asset('images/avatar/avatar.jpg')}}" alt="avatar">
+                <span>{{ auth()->user()->full_name }}</span>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
                 <li><a class="dropdown-item" href="profile.html">Profile</a></li>

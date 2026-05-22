@@ -22,6 +22,11 @@
                 </div>
             {{-- @endif --}}
             <div class="col-md-12 px-3">
+                <label for="inputaddress" class="form-label">Address</label>
+                <input type="password" class="form-control" id="inputaddress" name="address">
+                <!-- {{-- <a href="{{ route('password-rest-form') }}" style="margin-left: 290px; text-decoration: none;">Forgot Password</a></small> --}} -->
+            </div>
+            <div class="col-md-12 px-3">
                 <label for="inputPassword4" class="form-label">New Password</label>
                 <input type="password" class="form-control" id="inputPassword4" name="password">
                 {{-- <a href="{{ route('password-rest-form') }}" style="margin-left: 290px; text-decoration: none;">Forgot Password</a></small> --}}

@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('company_holidays', function (Blueprint $table) {
             $table->id();
-            $table->date('holiday_day');
+            $table->string('title');
+            $table->date('holiday_date');
             $table->text('reason');
-            $table->foreignId('created_by')->constrained('users');
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete;
             $table->timestamps();
         });
     }

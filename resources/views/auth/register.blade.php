@@ -24,7 +24,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="registerName">Full name</label>
-                    <input class="form-control" id="registerName" type="text" name="name" required>
+                    <input class="form-control" id="registerName" type="text" name="full_name" required>
                     <div class="invalid-feedback">Full name is required.</div>
                 </div>
                 <div class="mb-3">
@@ -39,7 +39,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="registerPhone">Phone Number</label>
-                    <input class="form-control" id="registerPhone" type="text" name="phone_no" required>
+                    <input class="form-control" id="registerPhone" type="text" name="phone" required>
                     <div class="invalid-feedback">Enter a valid phone number.</div>
                 </div>
                 <div class="mb-3">
@@ -54,7 +54,7 @@
                         <option value="M">Male</option>
                         <option value="O">Others</option>
                     </select>
-                    <div class="invalid-feedback">Enter a valid phone number.</div>
+                    <!-- <div class="invalid-feedback">Enter a valid phone number.</div> -->
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="registerPassword">Password</label>

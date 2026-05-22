@@ -13,18 +13,17 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
-            $table->foreignId('team_id')->constrained('teams')->onDelete('cascade')->nullable();
-            $table->string('name');
+            $table->foreignId('role_id')->nullable()->constrained('roles')->nullOnDelete();
+            $table->foreignId('team_id')->nullable()->constrained('teams')->nullOnDelete();
+            $table->string('full_name');
             $table->string('job_title');
             $table->string('email')->unique();
-            $table->string('phone_no')->unique();
+            $table->string('phone')->unique();
             $table->date('date_of_birth');
             $table->text('address')->nullable();
             $table->enum('gender',['F','M','O']);
-            $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
-            $table->boolean('status')->default(1);
-            $table->timestamp('email_verified_at')->nullable();
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->boolean('status')->default(1)->comment('1->Active, 0->Blocked');
             $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
@@ -51,6 +50,11 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropForeign(['team_id']);
+            $table->dropForeign(['role_id']);
+            $table->dropForeign(['created_by']);
+        });
         Schema::dropIfExists('users');
         Schema::dropIfExists('password_reset_tokens');
         Schema::dropIfExists('sessions');
