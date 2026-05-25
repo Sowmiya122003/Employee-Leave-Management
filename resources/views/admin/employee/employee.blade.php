@@ -14,9 +14,11 @@
                 <div class="heading-actions">
                     <a class="btn btn-outline-secondary btn-sm" href="{{route('admin.dashboard')}}">
                         <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
+                    <a class="btn btn-outline-primary btn-sm" href="{{route('admin.add.employee')}}">
+                        Add Employee <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
                 </div>
             </div>
-            <table class="table ">
+            <table class="table" id="employeetable">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -27,7 +29,7 @@
                         <th>Added By </th>
                     </tr>
                 </thead>
-                <tbody>
+                {{-- <tbody>
                     @foreach($users as $data)
                         <tr>
                             <td>{{ $data->full_name}}</td>
@@ -44,12 +46,46 @@
                             <td>{{ $data->creator->full_name }}</td>
                         </tr>
                     @endforeach
-                </tbody>
+                </tbody> --}}
             </table>
         </div>
     </main>
 
 @endsection
-@push('styles')
-
+@push('scripts')
+<script>
+    $(document).ready(function(){
+        $('#employeetable').DataTable({
+            ajax: `{{ route('employee-list') }}`,
+            processing: true,
+            serverSide: true,
+            columns: [
+                {
+                    name: 'full_name',
+                    data: 'full_name',
+                },
+                {
+                    name: 'email',
+                    data: 'email',
+                },
+                {
+                    name: 'phone',
+                    data: 'phone',
+                },
+                {
+                    name: 'gender',
+                    data: 'gender',
+                },
+                {
+                    name: 'roles.role_name',
+                    data: 'role_name',
+                },
+                {
+                    name: 'creator_name',
+                    data: 'creator_name',
+                }
+            ]
+        });
+    });
+</script>
 @endpush

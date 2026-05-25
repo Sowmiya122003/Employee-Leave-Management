@@ -7,6 +7,8 @@
     <title>Password</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 </head>
 <body>
     <div style="width: 430px; margin:40px auto; border-radius: 10px;box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);">
@@ -38,5 +40,18 @@
             </div>
             <div class="col-6 px-3 pb-3" style="margin-left: 150px">
                 <button type="submit" class="btn btn-primary">Submit</button>
+                <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+            <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+            @if (session('error'))
+                <script>
+                    toastr.error("{{ session('error') }}");
+                </script>
+            @elseif(session('success'))
+                <script>
+                    toastr.success("{{ session('success') }}")
+                </script>
+            @endif
 </body>
 </html>

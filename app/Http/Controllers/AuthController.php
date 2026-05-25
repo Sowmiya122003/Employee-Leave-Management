@@ -5,18 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\CompanyHoliday;
 use Hash;
 class AuthController extends Controller
 {
     public function login(){
         if (Auth::check()){
-                return view('admin.dashboard');
+                return view('admin.dashboard',compact('holidays'));
         }
         return view('auth.login');
     }
     public function register(){
         if (Auth::check()){
-            return view('admin.dashboard');
+                return view('admin.dashboard',compact('holidays'));
         }
         return view('auth.register');
     }
@@ -33,7 +34,7 @@ class AuthController extends Controller
         ]);
         $validated['password'] = Hash::make($validated['password']);
         $validated['role_id']=1;
-        $validated['job_title'] = 'Admin';    
+        $validated['job_title'] = 'Admin';
         // dd($validated);
         // $user= new User();
         // dd($user->getFillable());
@@ -48,7 +49,7 @@ class AuthController extends Controller
             // dd(auth()->user()->name);
             return redirect()->route('admin.dashboard');
         }
-        return 'Incorrect credentials';
+        return redirect()->route('login')->with('error','Incorrect Credentials');
     }
     public function logout(){
         Auth::logout();

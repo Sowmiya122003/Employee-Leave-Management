@@ -15,8 +15,10 @@ class CompanyHolidayController extends Controller
         return view('admin.holiday.company_holiday_list',['holidays'=>$holidays]);
     }
     public function holidayform(){
+        if (auth()->user()->id == 1){
         return view('admin.holiday.company_holiday');
     }
+    return redirect()->route('holiday.list')->with('error','Access Denied');}
     public function holidaycreate(Request $request){
         $validate = $request->validate([
             'title'=>'required',
@@ -28,15 +30,19 @@ class CompanyHolidayController extends Controller
         return redirect()->route('admin.dashboard');
     }
     public function sendHolidayPdf(){
-        $users = User::select('full_name','email')->first();
-        // dd($users->toArray());
-        $holidays = CompanyHoliday::select('id','title','holiday_date')->get();
-        $pdf = Pdf::loadView('pdf.holiday',compact('holidays'));
-        $path=public_path('uploads/holiday.pdf');
-        $pdf->save($path);
-        // dd($pdf);
-        // foreach($users as $user)
-        Mail::to($users->email)->send(new HolidayMail($path,$users->full_name));
-        return 'Mail Sent Successfully';
+        if(auth()->user()->id == 1){
+            $users = User::select('full_name','email')->first();
+            // dd($users->toArray());
+            $holidays = CompanyHoliday::select('id','title','holiday_date')->get();
+            $pdf = Pdf::loadView('pdf.holiday',compact('holidays'));
+            $path=public_path('uploads/holiday.pdf');
+            $pdf->save($path);
+            // dd($pdf);
+            // foreach($users as $user)
+            Mail::to($users->email)->send(new HolidayMail($path,$users->full_name));
+            return redirect()->route('holiday.list')->with('success','Mail Sent Successfully');
+        }
+        return redirect()->route('holiday.list')->with('error','Acess Denied!');
+
     }
 }

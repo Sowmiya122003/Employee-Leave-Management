@@ -8,6 +8,7 @@
     <title>Register</title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 
 <body class="auth-body">
@@ -73,6 +74,19 @@
             <div class="auth-footer">Already have an account? <a href="{{ route('login') }}">Sign in</a></div>
         </section>
     </main>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+            <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+            @if (session('error'))
+                <script>
+                    toastr.error("{{ session('error') }}");
+                </script>
+            @elseif(session('success'))
+                <script>
+                    toastr.success("{{ session('success') }}")
+                </script>
+            @endif
 </body>
 
 </html>

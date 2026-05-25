@@ -27,7 +27,6 @@
                     <div>
                         <h3 class="eyebrow mb-1">Company Holidays for 2026</h3>
                     </div>
-                    <!-- <p>Please find attached the official company holiday list for 2026.</p> -->
                 </div>
             </div>
             <table class="table">

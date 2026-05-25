@@ -123,4 +123,5 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'Toastr' => 'Yoeunes\Toastr\Facades\Toastr::class',
 ];

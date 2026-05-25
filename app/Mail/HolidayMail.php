@@ -54,7 +54,7 @@ class HolidayMail extends Mailable
     public function attachments(): array
     {
         return [
-            Attachment::fromPath($this->path)->as('holiday-list-2026.pdf')->withMime('application/pdf')
+            Attachment::fromPath($this->path)->as('holiday-list-2026.pdf')->withMime('attachment/pdf')
         ];
     }
 }
