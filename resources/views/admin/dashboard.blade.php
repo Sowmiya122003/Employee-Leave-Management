@@ -101,7 +101,7 @@
                 </div>
 
                 <div class="col-12 col-xl-4" id="calendar">
-                    <div class="panel h-100" >
+                    <div class="panel h-100">
                     </div>
                 </div>
             </section>
@@ -131,7 +131,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center gap-2">
-                                        <img class="avatar-img avatar-sm" src="{{asset('images/avatar/avatar-1.jpg')}}"
+                                        <img class="avatar-img avatar-sm" src="{{ asset('images/avatar/avatar-1.jpg') }}"
                                             alt="Sarah Ahmed">
                                         <div>
                                             <p class="fw-semibold mb-0">Sarah Ahmed</p>
@@ -149,7 +149,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center gap-2">
-                                        <img class="avatar-img avatar-sm" src="{{asset('images/avatar/avatar-2.jpg')}}"
+                                        <img class="avatar-img avatar-sm" src="{{ asset('images/avatar/avatar-2.jpg') }}"
                                             alt="Rafi Khan">
                                         <div>
                                             <p class="fw-semibold mb-0">Rafi Khan</p>
@@ -167,7 +167,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center gap-2">
-                                        <img class="avatar-img avatar-sm" src="{{asset('images/avatar/avatar-3.jpg')}}"
+                                        <img class="avatar-img avatar-sm" src="{{ asset('images/avatar/avatar-3.jpg') }}"
                                             alt="Nadia Islam">
                                         <div>
                                             <p class="fw-semibold mb-0">Nadia Islam</p>
@@ -185,7 +185,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center gap-2">
-                                        <img class="avatar-img avatar-sm" src="{{asset('images/avatar/avatar-4.jpg')}}"
+                                        <img class="avatar-img avatar-sm" src="{{ asset('images/avatar/avatar-4.jpg') }}"
                                             alt="Mina Torres">
                                         <div>
                                             <p class="fw-semibold mb-0">Mina Torres</p>
@@ -203,7 +203,7 @@
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center gap-2">
-                                        <img class="avatar-img avatar-sm" src="{{asset('images/avatar/avatar-5.jpg')}}"
+                                        <img class="avatar-img avatar-sm" src="{{ asset('images/avatar/avatar-5.jpg') }}"
                                             alt="Jon Oliver">
                                         <div>
                                             <p class="fw-semibold mb-0">Jon Oliver</p>
@@ -222,54 +222,59 @@
                     </table>
                 </div>
             </section>
+            <div>
+                <a href="{{ route('employee.leave.request') }}"><button class="btn btn-light" id="createbutton">+ Create Leave Request </button></a>
+            </div>
         </div>
     </main>
-{{--
-    <footer class="admin-footer">
-        <div class="container-fluid px-3 px-lg-4">
-            <span>Copyright 2026 adminHMD. <br> Developed by <a target="_blank" class="fw-bold text-success"
-                    href="https://github.com/HasanMahmudDev">Md. Hasan Mahmud</a> • Distributed by <a target="_blank"
-                    class="fw-bold text-success" href="https://themewagon.com">ThemeWagon</a> </span>
-            <span>Professional dashboard template.</span>
-        </div>
-    </footer> --}}
-    </div>
-    </div>
 @endsection
 @push('scripts')
-<script>
-    // import { Calendar } from '@fullcalendar/core'
-    // import dayGridPlugin from '@fullcalednar/daygrid'
-    // import multiMonthplugin from '@fullcalendar/multimonth'
+    <script>
+        // import { Calendar } from '@fullcalendar/core'
+        // import dayGridPlugin from '@fullcalednar/daygrid'
+        // import multiMonthplugin from '@fullcalendar/multimonth'
 
-    document.addEventListener('DOMContentLoaded',function(){
+        document.addEventListener('DOMContentLoaded', function() {
 
-        var calendarEl = document.getElementById('calendar');
-        let holidays = @json($holidays);
-        // console.log(holidays);
-        let event = holidays.map(holiday => {
-            return{
-                'title':holiday.title,
-                'start':holiday.holiday_date
-            }
-        });
-        var calendar = new FullCalendar.Calendar(calendarEl,{
-            // plugins:[dayGridPlugin,multiMonthPlugin],
-            aspectRatio:1.1,
-            initialView:'dayGridMonth',
-            headerToolbar: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'dayGridMonth,multiMonthYear'
-            },
-            weekends:true,
-            events:event,
-            eventColor: '#378006'
-        });
-        calendar.setOption(['height',500]);
-        // calendar.updateSize();
-        // console.log(calendar);
-        calendar.render();
-    })
-</script>
+            var calendarEl = document.getElementById('calendar');
+            let holidays = @json($holidays);
+            // console.log(holidays);
+            let event = holidays.map(holiday => {
+                return {
+                    'title': holiday.title,
+                    'start': holiday.holiday_date
+                }
+            });
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                // plugins:[dayGridPlugin,multiMonthPlugin],
+                aspectRatio: 1.1,
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,multiMonthYear'
+                },
+                weekends: true,
+                events: event,
+                eventColor: '#378006'
+            });
+            calendar.setOption(['height', 500]);
+            // calendar.updateSize();
+            // console.log(calendar);
+            calendar.render();
+        })
+    </script>
+@endpush
+@push('styles')
+<style>
+    #createbutton{
+        /* height: 60px; */
+        font-size: large;
+        /* width: 60px; */
+        justify-content: center;
+        display: flex;
+        /* opacity: 0.4; */
+        /* background: rgba(0,0,0,0.5); */
+    }
+</style>
 @endpush

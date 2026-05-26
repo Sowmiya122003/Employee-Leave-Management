@@ -10,16 +10,16 @@ use Illuminate\Support\Facades\Mail;
 
 class CompanyHolidayController extends Controller
 {
-    public function holidaylist(){
+    public function holidayList(){
         $holidays = CompanyHoliday::select('id','title','holiday_date')->get();
         return view('admin.holiday.company_holiday_list',['holidays'=>$holidays]);
     }
-    public function holidayform(){
+    public function holidayForm(){
         if (auth()->user()->id == 1){
         return view('admin.holiday.company_holiday');
     }
     return redirect()->route('holiday.list')->with('error','Access Denied');}
-    public function holidaycreate(Request $request){
+    public function holidayCreate(Request $request){
         $validate = $request->validate([
             'title'=>'required',
             'holiday_date' =>'required',

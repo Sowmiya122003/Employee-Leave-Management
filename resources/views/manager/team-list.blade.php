@@ -31,7 +31,7 @@
                     </tr>
                 </thead>
                 {{-- <tbody>
-                    @foreach($users as $data)
+                    @foreach($teams as $data)
                         <tr>
                             <td>{{ $data->full_name}}</td>
                             <td>{{ $data->email}}</td>
@@ -44,7 +44,7 @@
                             <td>Others</td>
                             @endif
                             <td>{{ $data->role_name }}</td>
-                            <td>{{ $data->creator->full_name }}</td>
+                            <td>{{ $data->creator?->full_name ?? 'N/A' }}</td>
                         </tr>
                     @endforeach
                 </tbody> --}}
@@ -57,7 +57,7 @@
 <script>
     $(document).ready(function(){
         $('#employeetable').DataTable({
-            ajax: `{{ route('employee-list') }}`,
+            ajax: `{{ route('team-list') }}`,
             processing: true,
             serverSide: true,
             columns: [
@@ -94,3 +94,4 @@
     });
 </script>
 @endpush
+

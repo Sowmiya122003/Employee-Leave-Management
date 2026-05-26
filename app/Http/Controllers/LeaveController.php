@@ -29,4 +29,11 @@ class LeaveController extends Controller
         $leave=LeaveType::create($validate);
         return redirect()->route('leave.type')->with('success','Created Successfully');
     }
+    public function leaveRequest(){
+        $leave_type = LeaveType::select('id','leave_type_name')->get();
+        return view('employee.leaverequest',compact('leave_type'));
+    }
+    public function createLeaveRequest(Request $request){
+        dd($request->toArray());
+    }
 }

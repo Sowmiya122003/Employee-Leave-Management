@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.master');
 @section('content')
     <main class="dashboard-content">
         <div class="container-fluid px-3 px-lg-4 py-4">
@@ -7,80 +7,90 @@
                     <span class="page-icon"><i class="bi bi-person-plus" aria-hidden="true"></i></span>
                     <div>
                         <p class="eyebrow mb-1">Management</p>
-                        <h1 class="h3 mb-1">Add User</h1>
-                        <p class="text-muted mb-0">Create a new user account with role and team assignments.</p>
+                        <h1 class="h3 mb-1">Update Employee Details </h1>
+                        <p class="text-muted mb-0">Edit user account with role and team assignments.</p>
                     </div>
                 </div>
-                <div class="heading-actions"><a class="btn btn-outline-secondary btn-sm"
-                        href="{{ route('admin.dashboard') }}"><i class="bi bi-arrow-left" aria-hidden="true"></i> Back to
-                        Dashboard</a></div>
+                <div class="heading-actions">
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('employee-list') }}">
+                        <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Employee List</a>
+                </div>
             </div>
 
             <section class="row g-3">
                 <div class="col-12 col-xl-8">
-                    <form class="panel needs-validation" action="{{ route('add.employee.data') }}" method="POST">
+                    <form class="panel needs-validation" action="{{ route('admin.update.employee',$user->id) }}" method="POST">
                         @csrf
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label" for="name">Name</label>
-                                <input class="form-control" id="name" type="text" name="full_name" required>
+                                <input class="form-control" id="name" type="text" name="full_name" value="{{ $user->full_name }}" required>
                                 <div class="invalid-feedback">Name is required.</div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="email">Email</label>
-                                <input class="form-control" name="email" id="email" type="email" required>
+                                <input class="form-control" name="email" id="email" type="email" value="{{ $user->email }}" required>
                                 <div class="invalid-feedback">Enter a valid email.</div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="phone">Phone</label>
-                                <input class="form-control" name="phone" id="phone" type="tel" required>
+                                <input class="form-control" name="phone" id="phone" type="tel"  value="{{ $user->phone }}"required>
                                 <div class="invalid-feedback">Phone number is required.</div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="date_of_birth">Date of Birth</label>
-                                <input class="form-control" id="date_of_birth" name="date_of_birth" type="date" required>
+                                <input class="form-control" id="date_of_birth" name="date_of_birth" type="date" value="{{ $user->date_of_birth }}" required>
                                 <div class="invalid-feedback">Date of Birth is required.</div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="registerGender">Gender</label>
                                 <select name="gender" id="registerGender" class="form-control" required>
-                                    <option value="F">Female</option>
-                                    <option value="M">Male</option>
-                                    <option value="O">Others</option>
+                                    <option value="F" @if ($user->gender == 'F')
+                                        selected
+                                    @endif >Female</option>
+                                    <option value="M" @if ($user->gender == 'M')
+                                        selected
+                                    @endif>Male</option>
+                                    <option value="O" @if ($user->gender == 'O')
+                                        selected
+                                    @endif>Others</option>
                                 </select>
                                 <div class="invalid-feedback">Gender is required.</div>
                             </div>
                             <div class="col-md-6"><label class="form-label" for="title">Designation</label>
-                                <input class="form-control" name="job_title" id="title" type="text" required>
+                                <input class="form-control" name="job_title" id="title" type="text" value="{{ $user->job_title }}" required>
                                 <div class="invalid-feedback">Designation is required.</div>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label" for="role_id">Role</label>
-                                <select class="form-select" name="role_id" id="role_id" required>
+                                <label class="form-label" for="role">Role</label>
+                                <select class="form-select" name="role_id" id="role" required>
                                     <option value="">Choose role</option>
                                     <!-- <option value="1">Admin</option> -->
-                                    <option value="2">Manager</option>
-                                    <option value="3">Employee</option>
+                                    <option value="2" @if ($user->role_id == '2')
+                                        selected
+                                    @endif>Manager</option>
+                                    <option value="3" @if ($user->role_id == '3')
+                                        selected
+                                    @endif>Employee</option>
                                 </select>
                                 <div class="invalid-feedback">Choose a role.</div>
                             </div>
-                            <div class="col-md-6"><label class="form-label" for="team_id">Team</label>
-                                <select class="form-select" id="team_id" name="team_id" required>
+                            <div class="col-md-6"><label class="form-label" for="team">Team</label>
+                                <select class="form-select" id="team" name="team_id" required>
                                     <option value="">Choose team</option>
                                     @foreach ($teams as $singleteam)
-                                        <option value="{{ $singleteam->id }}">{{ $singleteam->team_name }}</option>
+                                        <option value="{{ $singleteam->id }}" @if ($user->team_id == $singleteam->id)
+                                        selected
+                                    @endif>{{ $singleteam->team_name }}</option>
                                     @endforeach
                                 </select>
                                 <div class="invalid-feedback">Choose a team.</div>
                             </div>
-                            <div class="col-12"><label class="form-label" for="notes">Notes</label>
-                                <textarea class="form-control" id="notes" rows="4" placeholder="Optional onboarding notes"></textarea>
-                            </div>
                         </div>
                         <div class="d-flex flex-wrap justify-content-end gap-2 mt-4">
                             <a class="btn btn-outline-secondary" href="{{ route('admin.dashboard') }}">Cancel</a>
-                            <button class="btn btn-primary" type="submit" id="submitbutton"><i
-                                    class="bi bi-person-check" aria-hidden="true"></i> Create User</button>
+                            <button class="btn btn-primary" type="submit"><i class="bi bi-person-check"
+                                    aria-hidden="true"></i> Create User</button>
                         </div>
                     </form>
                 </div>
@@ -114,5 +124,3 @@
         </div>
     </main>
 @endsection
-@push('scripts')
-@endpush

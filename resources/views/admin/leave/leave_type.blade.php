@@ -7,7 +7,7 @@
                     <span class="page-icon"><i class="bi bi-person-plus" aria-hidden="true"></i></span>
                     <div>
                         <p class="eyebrow mb-1">Management</p>
-                        <h1 class="h3 mb-1">Employees and Managers List </h1>
+                        <h1 class="h3 mb-1">Leave Types List</h1>
                         {{-- <p class="text-muted mb-0">Create a new user account with role and team assignments.</p> --}}
                     </div>
                 </div>

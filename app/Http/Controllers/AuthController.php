@@ -21,7 +21,7 @@ class AuthController extends Controller
         }
         return view('auth.register');
     }
-    public function registersubmit(Request $request){
+    public function registerSubmit(Request $request){
         // dd($request->toArray());
         $validated = $request->validate([
             'full_name' => 'required|string',
@@ -42,7 +42,7 @@ class AuthController extends Controller
         // dd($user);
         return redirect()->route('login');
     }
-    public function loginsubmit(Request $request){
+    public function loginSubmit(Request $request){
         if(Auth::attempt(['email'=>$request->email,'password'=>$request->password])){
             // dd($request->toArray());
             $user = User::where('email',$request->email)->first();

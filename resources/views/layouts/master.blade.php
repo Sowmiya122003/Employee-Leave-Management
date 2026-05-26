@@ -21,7 +21,7 @@
         <div class="sidebar-backdrop" data-sidebar-close></div>
         <aside class="admin-sidebar" id="adminSidebar" aria-label="Main navigation">
             <div class="sidebar-header">
-                <a class="brand-mark" href="index.html" aria-label="adminHMD dashboard">
+                <a class="brand-mark" href="{{ route('admin.dashboard') }}" aria-label="adminHMD dashboard">
                     <span class="brand-icon"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i></span>
                     <span class="brand-copy">
                         <span class="brand-title">admin</span>
@@ -31,14 +31,24 @@
             </div>
 
             <nav class="sidebar-nav">
-                <a class="nav-link active" href="{{ route('admin.dashboard') }}" aria-current="page">
+                <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
+                    {{ request()->routeIs('admin.dashboard') ? 'aria-current=page' : '' }} href="{{ route('admin.dashboard') }}">
                     <span class="nav-icon"><i class="bi bi-speedometer2" aria-hidden="true"></i></span>
                     <span class="nav-text">Dashboard</span>
                 </a>
-                <a class="nav-link" href="{{ route('employee-list') }}">
-                    <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
-                    <span class="nav-text">Employees</span>
-                </a>
+                @if (auth()->user()->role_id == 1)
+                    <a class="nav-link {{ request()->routeIs('employee-list') ? 'active' : '' }}"
+                    {{ request()->routeIs('employee-list') ? 'aria-current=page' : '' }} href="{{ route('employee-list') }}">
+                        <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+                        <span class="nav-text">Employees</span>
+                    </a>
+                @elseif(auth()->user()->role_id == 2)
+                    <a class="nav-link {{ request()->routeIs('team-list') ? 'active' : '' }}"
+                    {{ request()->routeIs('team-list') ? 'aria-current=page' : '' }} href="{{ route('team-list') }}">
+                        <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+                        <span class="nav-text">Team Members</span>
+                    </a>
+                @endif
                 {{-- <a class="nav-link" href="{{route('admin.add.employee')}}">
           <span class="nav-icon"><i class="bi bi-person-plus" aria-hidden="true"></i></span>
           <span class="nav-text">Add Employee </span>
@@ -47,15 +57,27 @@
                     <span class="nav-icon"><i class="bi bi-person-badge" aria-hidden="true"></i></span>
                     <span class="nav-text">Company Holiday </span>
                 </a>
-                <a class="nav-link" href="{{ route('team.list') }}">
-                    <span class="nav-icon"><i class="bi bi-bar-chart-line" aria-hidden="true"></i></span>
-                    <span class="nav-text">Teams </span>
-                </a>
-                <a class="nav-link" href="{{ route('leave.type') }}">
-                    <span class="nav-icon"><i class="bi bi-table" aria-hidden="true"></i></span>
-                    <span class="nav-text">Leave Types</span>
-                </a>
-                <a class="nav-link" href="forms.html">
+                @if (auth()->user()->role_id == 1)
+                    <a class="nav-link" href="{{ route('team.list') }}">
+                        <span class="nav-icon"><i class="bi bi-bar-chart-line" aria-hidden="true"></i></span>
+                        <span class="nav-text">Teams </span>
+                    </a>
+                    <a class="nav-link" href="{{ route('leave.type') }}">
+                        <span class="nav-icon"><i class="bi bi-table" aria-hidden="true"></i></span>
+                        <span class="nav-text">Leave Types</span>
+                    </a>
+                @endif
+                @if (auth()->user()->role_id == 3)
+                    <a class="nav-link" href="{{ route('leave.type') }}">
+                        <span class="nav-icon"><i class="bi bi-table" aria-hidden="true"></i></span>
+                        <span class="nav-text">Leaves Taken </span>
+                    </a>
+                    <a class="nav-link" href="{{ route('leave.type') }}">
+                        <span class="nav-icon"><i class="bi bi-table" aria-hidden="true"></i></span>
+                        <span class="nav-text">Leave Types</span>
+                    </a>
+                @endif
+                {{-- <a class="nav-link" href="forms.html">
                     <span class="nav-icon"><i class="bi bi-ui-checks-grid" aria-hidden="true"></i></span>
                     <span class="nav-text">Forms</span>
                 </a>
@@ -78,11 +100,11 @@
                 <a class="nav-link" href="blank.html">
                     <span class="nav-icon"><i class="bi bi-file-earmark" aria-hidden="true"></i></span>
                     <span class="nav-text">Blank Page</span>
-                </a>
+                </a> --}}
             </nav>
 
             <div class="sidebar-user">
-                <img class="avatar-img avatar-md sidebar-user-avatar" src="{{ asset('images/avatar/avatar.jpg') }}"
+                <img class="avatar-img avatar-md sidebar-user-avatar" src="{{ asset('images/avatar/avatar-5.jpg') }}"
                     alt="avatar">
                 <h6>{{ auth()->user()->full_name }}</h6>
                 <small>Active Workspace</small>
@@ -140,12 +162,13 @@
                         <div class="dropdown">
                             <button class="profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
-                                <img class="avatar-img avatar-sm" src="{{ asset('images/avatar/avatar.jpg') }}"
+                                <img class="avatar-img avatar-sm" src="{{ asset('images/avatar/avatar-5.jpg') }}"
                                     alt="avatar">
                                 <span>{{ auth()->user()->full_name }}</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end">
-                                <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+                                <li><a class="dropdown-item"
+                                        href="{{ route('admin.view.employee', auth()->user()->id) }}">Profile</a></li>
                                 <li><a class="dropdown-item" href="settings.html">Account settings</a></li>
                                 <li>
                                     <hr class="dropdown-divider">
@@ -160,7 +183,7 @@
             <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
             <script src="{{ asset('js/main.js') }}"></script>
             <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-            <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+            {{-- <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script> --}}
             <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.18/index.global.min.js"></script>
             <script src="https://cdn.datatables.net/2.3.8/js/dataTables.js"></script>
@@ -173,7 +196,16 @@
                     toastr.success("{{ session('success') }}")
                 </script>
             @endif
+            @stack('styles')
             @stack('scripts')
+            <script>
+                window.authUser = {
+                    name: @json(auth()->user()->full_name),
+                    avatar: @json(asset('images/avatar/avatar-5.jpg'))
+                };
+            </script>
+
+            <script src="{{ asset('js/app.js') }}"></script>
 </body>
 
 </html>
