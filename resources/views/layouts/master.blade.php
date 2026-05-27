@@ -42,72 +42,53 @@
                         <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
                         <span class="nav-text">Employees</span>
                     </a>
+                    <a class="nav-link {{ request()->routeIs('leave.requests') ? 'active' : '' }}"
+                    {{ request()->routeIs('leave.requests') ? 'aria-current=page' : '' }} href="{{ route('leave.requests') }}">
+                        <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+                        <span class="nav-text">Leave  Request List </span>
+                    </a>
                 @elseif(auth()->user()->role_id == 2)
                     <a class="nav-link {{ request()->routeIs('team-list') ? 'active' : '' }}"
                     {{ request()->routeIs('team-list') ? 'aria-current=page' : '' }} href="{{ route('team-list') }}">
                         <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
                         <span class="nav-text">Team Members</span>
                     </a>
+                    <a class="nav-link {{ request()->routeIs('leave.requests') ? 'active' : '' }}"
+                    {{ request()->routeIs('leave.requests') ? 'aria-current=page' : '' }} href="{{ route('leave.requests') }}">
+                        <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+                        <span class="nav-text">Leave Requests</span>
+                    </a>
                 @endif
-                {{-- <a class="nav-link" href="{{route('admin.add.employee')}}">
-          <span class="nav-icon"><i class="bi bi-person-plus" aria-hidden="true"></i></span>
-          <span class="nav-text">Add Employee </span>
-        </a> --}}
-                <a class="nav-link" href="{{ route('holiday.list') }}">
-                    <span class="nav-icon"><i class="bi bi-person-badge" aria-hidden="true"></i></span>
-                    <span class="nav-text">Company Holiday </span>
-                </a>
+                <a class="nav-link {{ request()->routeIs('holiday.list') ? 'active' : '' }}"
+                    {{ request()->routeIs('holiday.list') ? 'aria-current=page' : '' }} href="{{ route('holiday.list') }}">
+                        <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+                        <span class="nav-text">Company Holidays</span>
+                    </a>
                 @if (auth()->user()->role_id == 1)
-                    <a class="nav-link" href="{{ route('team.list') }}">
-                        <span class="nav-icon"><i class="bi bi-bar-chart-line" aria-hidden="true"></i></span>
-                        <span class="nav-text">Teams </span>
-                    </a>
-                    <a class="nav-link" href="{{ route('leave.type') }}">
-                        <span class="nav-icon"><i class="bi bi-table" aria-hidden="true"></i></span>
-                        <span class="nav-text">Leave Types</span>
+                    <a class="nav-link {{ request()->routeIs('team.list') ? 'active' : '' }}"
+                    {{ request()->routeIs('team.list') ? 'aria-current=page' : '' }} href="{{ route('team.list') }}">
+                        <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+                        <span class="nav-text">Teams</span>
                     </a>
                 @endif
+                    <a class="nav-link {{ request()->routeIs('leave.type') ? 'active' : '' }}"
+                    {{ request()->routeIs('leave.type') ? 'aria-current=page' : '' }} href="{{ route('leave.type') }}">
+                        <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+                        <span class="nav-text">Leave Types</span>
+                    </a>
                 @if (auth()->user()->role_id == 3)
-                    <a class="nav-link" href="{{ route('leave.type') }}">
-                        <span class="nav-icon"><i class="bi bi-table" aria-hidden="true"></i></span>
-                        <span class="nav-text">Leaves Taken </span>
-                    </a>
-                    <a class="nav-link" href="{{ route('leave.type') }}">
-                        <span class="nav-icon"><i class="bi bi-table" aria-hidden="true"></i></span>
-                        <span class="nav-text">Leave Types</span>
+                    <a class="nav-link {{ request()->routeIs('leave.requests') ? 'active' : '' }}"
+                    {{ request()->routeIs('leave.requests') ? 'aria-current=page' : '' }} href="{{ route('leave.requests') }}">
+                        <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+                        <span class="nav-text">Leave Requests</span>
                     </a>
                 @endif
-                {{-- <a class="nav-link" href="forms.html">
-                    <span class="nav-icon"><i class="bi bi-ui-checks-grid" aria-hidden="true"></i></span>
-                    <span class="nav-text">Forms</span>
-                </a>
-                <a class="nav-link" href="components.html">
-                    <span class="nav-icon"><i class="bi bi-grid-3x3-gap" aria-hidden="true"></i></span>
-                    <span class="nav-text">Components</span>
-                </a>
-                <a class="nav-link" href="alerts.html">
-                    <span class="nav-icon"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i></span>
-                    <span class="nav-text">Alerts</span>
-                </a>
-                <a class="nav-link" href="modals.html">
-                    <span class="nav-icon"><i class="bi bi-window-stack" aria-hidden="true"></i></span>
-                    <span class="nav-text">Modals</span>
-                </a>
-                <a class="nav-link" href="settings.html">
-                    <span class="nav-icon"><i class="bi bi-gear" aria-hidden="true"></i></span>
-                    <span class="nav-text">Settings</span>
-                </a>
-                <a class="nav-link" href="blank.html">
-                    <span class="nav-icon"><i class="bi bi-file-earmark" aria-hidden="true"></i></span>
-                    <span class="nav-text">Blank Page</span>
-                </a> --}}
             </nav>
 
             <div class="sidebar-user">
                 <img class="avatar-img avatar-md sidebar-user-avatar" src="{{ asset('images/avatar/avatar-5.jpg') }}"
                     alt="avatar">
                 <h6>{{ auth()->user()->full_name }}</h6>
-                <small>Active Workspace</small>
             </div>
 
             <div class="sidebar-footer">
@@ -205,7 +186,7 @@
                 };
             </script>
 
-            <script src="{{ asset('js/app.js') }}"></script>
+            {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
 </body>
 
 </html>

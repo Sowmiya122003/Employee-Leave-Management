@@ -7,11 +7,15 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\CompanyHoliday;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Yajra\DataTables\DataTables;
 
 class CompanyHolidayController extends Controller
 {
-    public function holidayList(){
-        $holidays = CompanyHoliday::select('id','title','holiday_date')->get();
+    public function holidayList(Request $request){
+        $holidays = CompanyHoliday::select('id','title','holiday_date');
+        if($request->ajax()){
+            return DataTables::of($holidays)->toJson();
+        }
         return view('admin.holiday.company_holiday_list',['holidays'=>$holidays]);
     }
     public function holidayForm(){
@@ -31,15 +35,16 @@ class CompanyHolidayController extends Controller
     }
     public function sendHolidayPdf(){
         if(auth()->user()->id == 1){
-            $users = User::select('full_name','email')->first();
+            $users = User::select('full_name','email')->get();
             // dd($users->toArray());
             $holidays = CompanyHoliday::select('id','title','holiday_date')->get();
             $pdf = Pdf::loadView('pdf.holiday',compact('holidays'));
             $path=public_path('uploads/holiday.pdf');
             $pdf->save($path);
             // dd($pdf);
-            // foreach($users as $user)
-            Mail::to($users->email)->send(new HolidayMail($path,$users->full_name));
+            foreach($users as $user){
+                Mail::to($user->email)->queue(new HolidayMail($path,$user->full_name));
+            }
             return redirect()->route('holiday.list')->with('success','Mail Sent Successfully');
         }
         return redirect()->route('holiday.list')->with('error','Acess Denied!');

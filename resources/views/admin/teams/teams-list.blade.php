@@ -12,30 +12,68 @@
                     </div>
                 </div>
                 <div class="heading-actions">
-                    <a class="btn btn-outline-secondary btn-sm" href="{{route('team.create.form')}}">
-                         Create Teams <i class="bi bi-arrow-right" aria-hidden="true"></i> </a>
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('admin.dashboard') }}">
+                        <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
+                    @if (auth()->user()->role_id == 1)
+                        <a class="btn btn-outline-secondary btn-sm" href="{{ route('team.create.form') }}">
+                            Create Teams <i class="bi bi-arrow-right" aria-hidden="true"></i> </a>
+                    @endif
                 </div>
             </div>
-            <table class="table">
+            <table class="table" id="teamlist">
                 <thead>
                     <tr>
-                        <th>Team ID</th>
+                        <th>S.No</th>
                         <th>Team</th>
                         <th>Manager</th>
                         <th>Team Description</th>
                     </tr>
                 </thead>
-                <tbody>
-                    @foreach($teams as $singleteam)
-                    <tr>
-                        <th>{{ $singleteam->id }}</th>
-                        <th>{{ $singleteam->team_name }}</th>
-                        <th>{{ $singleteam->manager?->full_name ?? 'No Manager' }}</th>
-                        <th>{{ $singleteam->description }}</th>
-                    </tr>
+                {{-- <tbody>
+                    @foreach ($teams as $singleteam)
+                        <tr>
+                            <th>{{ $singleteam->id }}</th>
+                            <th>{{ $singleteam->team_name }}</th>
+                            <th>{{ $singleteam->manager?->full_name ?? 'No Manager' }}</th>
+                            <th>{{ $singleteam->description }}</th>
+                        </tr>
                     @endforeach
-                </tbody>
+                </tbody> --}}
             </table>
         </div>
     </main>
 @endsection()
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#teamlist').DataTable({
+                ajax: `{{ route('team.list') }}`,
+                processing: true,
+                serverSide: true,
+                columns: [{
+                        data: null,
+                        name: 's_no',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        name: 'team_name',
+                        data: 'team_name',
+                    },
+                    {
+                        name: 'manager',
+                        data: 'manager',
+                        defaultContent: 'N/A'
+                    },
+                    {
+                        name: 'description',
+                        data: 'description',
+                    },
+                ]
+            })
+        })
+    </script>
+@endpush

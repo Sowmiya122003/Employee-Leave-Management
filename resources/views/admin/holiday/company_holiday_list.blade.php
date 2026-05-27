@@ -12,21 +12,24 @@
                     </div>
                 </div>
                 <div class="heading-actions">
-                    <a class="btn btn-outline-secondary btn-sm" href="{{route('holidayform')}}">
-                         Add Holiday <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
-                    <a class="btn btn-outline-primary" href="{{route('send.holiday.pdf')}}">Send to Employees </a>
+                    @if(auth()->user()->role_id == 1 )
+                        <a class="btn btn-outline-primary btn-sm" href="{{route('holidayform')}}">
+                            Add Holiday <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+                    @if(in_array(auth()->user()->role_id, [1,2]))
+                        <a class="btn btn-outline-primary" href="{{route('send.holiday.pdf')}}">Send to Employees </a>
+                    @endif
+                    @endif
                 </div>
             </div>
-            <table class="table" style="text-align: center;">
+            <table class="table" id="companyholiday">
                 <thead>
                     <tr>
                         <th>S.No</th>
-                        <th style="text-align: left">Holiday </th>
+                        <th>Holiday </th>
                         <th>Date</th>
-                        <!-- <th>Team Description</th> -->
                     </tr>
                 </thead>
-                <tbody>
+                {{-- <tbody>
                     @foreach($holidays as $singleholiday)
                     <tr>
                         <td>{{ $singleholiday->id }}</td>
@@ -35,11 +38,38 @@
                         <!-- <th>{{ $singleholiday->description }}</th> -->
                     </tr>
                     @endforeach
-                </tbody>
+                </tbody> --}}
             </table>
         </div>
     </main>
 @endsection()
-@push('styles')
-
+@push('scripts')
+<script>
+    $(document).ready(function(){
+        $('#companyholiday').DataTable({
+            ajax:`{{ route('holiday.list') }}`,
+            precessing: true,
+            serverSide: true,
+            columns: [
+                {
+                    data: null,
+                    name: 's_no',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row, meta) {
+                        return meta.row + meta.settings._iDisplayStart + 1;
+                    }
+                },
+                {
+                    name:'title',
+                    data: 'title',
+                },
+                {
+                    name:'holiday_date',
+                    data: 'holiday_date',
+                }
+            ]
+        })
+    })
+</script>
 @endpush

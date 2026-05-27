@@ -14,11 +14,13 @@
                 <div class="heading-actions">
                     <a class="btn btn-outline-secondary btn-sm" href="{{route('admin.dashboard')}}">
                         <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
+                    @if(auth()->user()->role_id == 1)
                     <a class="btn btn-outline-primary btn-sm" href="{{route('leave.type.form')}}">
                         Add leave Type <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+                    @endif
                 </div>
             </div>
-            <table class="table" style="text-align: center">
+            <table class="table" style="text-align: center" id="leavetype">
                 <thead>
                     <tr>
                         <th>Leave Type</th>
@@ -29,7 +31,7 @@
                         <th>Added By </th>
                     </tr>
                 </thead>
-                <tbody>
+                {{-- <tbody>
                     @foreach($leave_type as $leave)
                         <tr>
                             <td style="text-align: left">{{ $leave->leave_type_name?? 'N/A'}}</td>
@@ -40,8 +42,54 @@
                             <td style="text-align: left">{{ $leave->creator?->full_name ?? 'N/A'}}</td>
                         </tr>
                     @endforeach
-                </tbody>
+                </tbody> --}}
             </table>
         </div>
     </main>
 @endsection
+@push('scripts')
+<script>
+    $(document).ready(function(){
+        $('#leavetype').DataTable({
+                ajax: `{{ route('leave.type') }}`,
+                processing: true,
+                serverSide: true,
+                columns: [{
+                        data: null,
+                        name: 's_no',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        name: 'leave_type_name',
+                        data: 'leave_type_name',
+                    },
+                    {
+                        name: 'per_month',
+                        data: 'per_month',
+                        // defaultContent: 'N/A'
+                    },
+                    {
+                        name: 'per_year',
+                        data: 'per_year',
+                    },
+                    {
+                        name: 'monthly_carry_forward',
+                        data: 'monthly_carry_forward',
+                    },
+                    {
+                        name: 'yearly_carry_forward',
+                        data: 'yearly_carry_forward',
+                    },
+                    {
+                        name: 'users.full_name',
+                        data: 'name',
+                    },
+                ]
+            })
+    })
+</script>
+@endpush

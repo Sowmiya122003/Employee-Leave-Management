@@ -90,7 +90,7 @@
                         <div class="d-flex flex-wrap justify-content-end gap-2 mt-4">
                             <a class="btn btn-outline-secondary" href="{{ route('admin.dashboard') }}">Cancel</a>
                             <button class="btn btn-primary" type="submit"><i class="bi bi-person-check"
-                                    aria-hidden="true"></i> Create User</button>
+                                    aria-hidden="true"></i> Update Employee</button>
                         </div>
                     </form>
                 </div>

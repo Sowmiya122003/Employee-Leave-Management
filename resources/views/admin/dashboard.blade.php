@@ -13,23 +13,24 @@
                         </p>
                     </div>
                 </div>
-                <div class="heading-actions"><button class="btn btn-outline-secondary btn-sm" type="button"><i
-                            class="bi bi-download" aria-hidden="true"></i> Export</button><button
-                        class="btn btn-primary btn-sm" type="button"><i class="bi bi-file-earmark-plus"
-                            aria-hidden="true"></i> Create Report</button></div>
+                <div class="heading-actions">
+                    <button class="btn btn-outline-secondary btn-sm" type="button">
+                        <i class="bi bi-download" aria-hidden="true"></i> Export
+                    </button>
+                    <a href="{{ route('employee.leave.request') }}">
+                        <button class="btn btn-light" id="createbutton">CreateLeave Request </button></a>
+                </div>
             </div>
 
             <section class="row g-3 mt-1" aria-label="Dashboard metrics">
                 <div class="col-12 col-sm-6 col-xl-3">
                     <article class="metric-card metric-primary">
                         <div class="metric-top">
-                            <span class="metric-label">Revenue</span>
-                            <span class="metric-icon"><i class="bi bi-currency-dollar" aria-hidden="true"></i></span>
+                            <span class="metric-label">Leave Request Pending </span>
+                            <span class="metric-icon"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i></span>
                         </div>
-                        <div class="metric-value">$48,240</div>
+                        <div class="metric-value">{{ $leaves_count['pending'] ?? 0 }}</div>
                         <div class="metric-meta">
-                            <span class="text-success">+12.5%</span>
-                            <span>from last month</span>
                         </div>
                     </article>
                 </div>
@@ -37,13 +38,11 @@
                 <div class="col-12 col-sm-6 col-xl-3">
                     <article class="metric-card metric-success">
                         <div class="metric-top">
-                            <span class="metric-label">Orders</span>
+                            <span class="metric-label">Accepted</span>
                             <span class="metric-icon"><i class="bi bi-bag-check" aria-hidden="true"></i></span>
                         </div>
-                        <div class="metric-value">1,284</div>
+                        <div class="metric-value">{{ $leaves_count['approved'] ?? 0 }}</div>
                         <div class="metric-meta">
-                            <span class="text-success">+8.2%</span>
-                            <span>new orders</span>
                         </div>
                     </article>
                 </div>
@@ -51,13 +50,11 @@
                 <div class="col-12 col-sm-6 col-xl-3">
                     <article class="metric-card metric-warning">
                         <div class="metric-top">
-                            <span class="metric-label">Customers</span>
+                            <span class="metric-label">Rejected</span>
                             <span class="metric-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
                         </div>
-                        <div class="metric-value">8,742</div>
+                        <div class="metric-value">{{ $leaves_count['rejected'] ?? 0 }}</div>
                         <div class="metric-meta">
-                            <span class="text-success">+5.1%</span>
-                            <span>active users</span>
                         </div>
                     </article>
                 </div>
@@ -65,13 +62,11 @@
                 <div class="col-12 col-sm-6 col-xl-3">
                     <article class="metric-card metric-danger">
                         <div class="metric-top">
-                            <span class="metric-label">Tickets</span>
+                            <span class="metric-label">Cancelled</span>
                             <span class="metric-icon"><i class="bi bi-life-preserver" aria-hidden="true"></i></span>
                         </div>
-                        <div class="metric-value">36</div>
+                        <div class="metric-value">{{ $leaves_count['cancelled'] ?? 0 }}</div>
                         <div class="metric-meta">
-                            <span class="text-danger">3 urgent</span>
-                            <span>need review</span>
                         </div>
                     </article>
                 </div>
@@ -105,176 +100,122 @@
                     </div>
                 </div>
             </section>
-
-            <section class="panel mt-3">
-                <div class="panel-header">
-                    <div>
-                        <h2 class="h5 mb-1 section-title"><i class="bi bi-people" aria-hidden="true"></i><span>Recent
-                                Users</span></h2>
-                        <p class="text-muted mb-0">Latest account activity across the workspace.</p>
+            @if (auth()->user()->role_id == 2 || auth()->user()->role_id == 1)
+                <section class="panel mt-3">
+                    <div class="panel-header">
+                        <div>
+                            <h2 class="h5 mb-1 section-title"><i class="bi bi-people" aria-hidden="true"></i><span>Highest
+                                    Leave Taken Employee/Manager</span></h2>
+                            <p class="text-muted mb-0"></p>
+                        </div>
                     </div>
-                    <a class="btn btn-outline-secondary btn-sm" href="users.html">Manage Users</a>
-                </div>
-                <div class="table-responsive">
-                    <table class="table align-middle mb-0">
-                        <thead>
-                            <tr>
-                                <th scope="col">User</th>
-                                <th scope="col">Role</th>
-                                <th scope="col">Team</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Joined</th>
-                                <th scope="col" class="text-end">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <img class="avatar-img avatar-sm" src="{{ asset('images/avatar/avatar-1.jpg') }}"
-                                            alt="Sarah Ahmed">
-                                        <div>
-                                            <p class="fw-semibold mb-0">Sarah Ahmed</p>
-                                            <p class="text-muted small mb-0">sarah@example.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Admin</td>
-                                <td>Operations</td>
-                                <td><span class="badge text-bg-success">Active</span></td>
-                                <td>Jan 12, 2026</td>
-                                <td class="text-end"><a class="btn btn-light btn-sm" href="user-details.html">View</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <img class="avatar-img avatar-sm" src="{{ asset('images/avatar/avatar-2.jpg') }}"
-                                            alt="Rafi Khan">
-                                        <div>
-                                            <p class="fw-semibold mb-0">Rafi Khan</p>
-                                            <p class="text-muted small mb-0">rafi@example.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Manager</td>
-                                <td>Sales</td>
-                                <td><span class="badge text-bg-success">Active</span></td>
-                                <td>Feb 03, 2026</td>
-                                <td class="text-end"><a class="btn btn-light btn-sm" href="user-details.html">View</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <img class="avatar-img avatar-sm" src="{{ asset('images/avatar/avatar-3.jpg') }}"
-                                            alt="Nadia Islam">
-                                        <div>
-                                            <p class="fw-semibold mb-0">Nadia Islam</p>
-                                            <p class="text-muted small mb-0">nadia@example.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Editor</td>
-                                <td>Content</td>
-                                <td><span class="badge text-bg-warning">Pending</span></td>
-                                <td>Mar 18, 2026</td>
-                                <td class="text-end"><a class="btn btn-light btn-sm" href="user-details.html">View</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <img class="avatar-img avatar-sm" src="{{ asset('images/avatar/avatar-4.jpg') }}"
-                                            alt="Mina Torres">
-                                        <div>
-                                            <p class="fw-semibold mb-0">Mina Torres</p>
-                                            <p class="text-muted small mb-0">mina@example.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Viewer</td>
-                                <td>Finance</td>
-                                <td><span class="badge text-bg-secondary">Suspended</span></td>
-                                <td>Apr 07, 2026</td>
-                                <td class="text-end"><a class="btn btn-light btn-sm" href="user-details.html">View</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <img class="avatar-img avatar-sm" src="{{ asset('images/avatar/avatar-5.jpg') }}"
-                                            alt="Jon Oliver">
-                                        <div>
-                                            <p class="fw-semibold mb-0">Jon Oliver</p>
-                                            <p class="text-muted small mb-0">jon@example.com</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>Analyst</td>
-                                <td>Data</td>
-                                <td><span class="badge text-bg-success">Active</span></td>
-                                <td>Apr 22, 2026</td>
-                                <td class="text-end"><a class="btn btn-light btn-sm" href="user-details.html">View</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-            <div>
-                <a href="{{ route('employee.leave.request') }}"><button class="btn btn-light" id="createbutton">+ Create Leave Request </button></a>
-            </div>
+                    <div class="table-responsive">
+                        <table class="table align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: left" scope="col">Name</th>
+                                    <th style="text-align: left" scope="col">Role</th>
+                                    <th style="text-align: left" scope="col">Team</th>
+                                    <th scope="col">Leaves Taken</th>
+                                    <th scope="col">Joined</th>
+                                    {{-- <th scope="col" class="text-end">Action</th> --}}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($top_leave_employees as $employee)
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <img class="avatar-img avatar-sm"
+                                                    src="{{ asset('images/avatar/avatar-' . $loop->iteration . '.jpg') }}"
+                                                    alt="{{ $employee->full_name }}">
+                                                <span>{{ $employee->full_name }}</span>
+                                            </div </td>
+                                        <td style="text-align: left">{{ $employee->role_name }}</td>
+                                        <td style="text-align: left">{{ $employee->team_name }}</td>
+                                        <td>{{ $employee->total_leaves }}</td>
+                                        <td>{{ $employee->joining_date }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            @endif
         </div>
     </main>
 @endsection
 @push('scripts')
     <script>
-        // import { Calendar } from '@fullcalendar/core'
-        // import dayGridPlugin from '@fullcalednar/daygrid'
-        // import multiMonthplugin from '@fullcalendar/multimonth'
-
         document.addEventListener('DOMContentLoaded', function() {
 
             var calendarEl = document.getElementById('calendar');
             let holidays = @json($holidays);
-            // console.log(holidays);
+            let leave = @json($leave);
             let event = holidays.map(holiday => {
                 return {
                     'title': holiday.title,
-                    'start': holiday.holiday_date
+                    'start': holiday.holiday_date,
+                    'backgroundColor': 'green'
                 }
             });
+            let leave_calendar = leave.map(leave => {
+                let endDate = new Date(leave.to_date);
+                endDate.setDate(endDate.getDate() + 1);
+                return {
+                    title: leave.role_id == 2 ?
+                        'Mgr Leave - ' + leave.leave_name : 'Emp Leave - ' + leave.leave_name,
+
+                    start: leave.from_date,
+                    end: endDate.toISOString().split('T')[0],
+
+                    backgroundColor: leave.role_id == 2 ? '#f59e0b' : '#3b82f6',
+                    borderColor: leave.role_id == 2 ? '#f59e0b' : '#3b82f6',
+                    textColor: '#ffffff'
+                };
+            })
+            let all_events = [...event, ...leave_calendar];
             var calendar = new FullCalendar.Calendar(calendarEl, {
-                // plugins:[dayGridPlugin,multiMonthPlugin],
                 aspectRatio: 1.1,
                 initialView: 'dayGridMonth',
+                // height: 550,
+                multiMonthMaxColumns: 2,
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
                     right: 'dayGridMonth,multiMonthYear'
                 },
                 weekends: true,
-                events: event,
-                eventColor: '#378006'
+                events: all_events,
             });
-            calendar.setOption(['height', 500]);
+            // calendar.setOption(['height', 500]);
             // calendar.updateSize();
             // console.log(calendar);
             calendar.render();
         })
+        
     </script>
 @endpush
 @push('styles')
-<style>
-    #createbutton{
-        /* height: 60px; */
-        font-size: large;
-        /* width: 60px; */
-        justify-content: center;
-        display: flex;
-        /* opacity: 0.4; */
-        /* background: rgba(0,0,0,0.5); */
-    }
-</style>
+    <style>
+        #createbutton {
+            font-size: large;
+            justify-content: center;
+            display: flex;
+        }
+
+        /* dayGrid */
+        #calendar .fc-daygrid-body {
+            overflow: hidden !important;
+        }
+
+        /* multiMonth */
+        #calendar .fc-multimonth {
+            overflow-y: auto !important;
+        }
+
+        table {
+            text-align: center;
+        }
+    </style>
 @endpush

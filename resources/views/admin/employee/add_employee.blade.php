@@ -51,21 +51,21 @@
                                 <div class="invalid-feedback">Gender is required.</div>
                             </div>
                             <div class="col-md-6"><label class="form-label" for="title">Designation</label>
-                                <input class="form-control" name="job_title" id="title" type="text" required>
-                                <div class="invalid-feedback">Designation is required.</div>
+                                <input class="form-control" name="job_title" id="title" type="text">
+                                {{-- <div class="invalid-feedback">Designation is required.</div> --}}
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="role_id">Role</label>
                                 <select class="form-select" name="role_id" id="role_id" required>
                                     <option value="">Choose role</option>
-                                    <!-- <option value="1">Admin</option> -->
+                                     <option value="1">Admin</option>
                                     <option value="2">Manager</option>
                                     <option value="3">Employee</option>
                                 </select>
                                 <div class="invalid-feedback">Choose a role.</div>
                             </div>
                             <div class="col-md-6"><label class="form-label" for="team_id">Team</label>
-                                <select class="form-select" id="team_id" name="team_id" required>
+                                <select class="form-select" id="team_id" name="team_id" >
                                     <option value="">Choose team</option>
                                     @foreach ($teams as $singleteam)
                                         <option value="{{ $singleteam->id }}">{{ $singleteam->team_name }}</option>

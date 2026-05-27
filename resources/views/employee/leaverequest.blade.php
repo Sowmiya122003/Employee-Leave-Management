@@ -23,12 +23,12 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label" for="name">Name</label>
-                                <input class="form-control" id="name" type="text" name="full_name" value="{{ auth()->user()->full_name }}" required>
+                                <input class="form-control" id="name" type="text" name="full_name" value="{{ auth()->user()->full_name }}" readonly>
                                 <div class="invalid-feedback">Name is required.</div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="leave_type">Type of Leave</label>
-                                <select name="leave_type_id" id="leave_type" class="form-control" required>
+                                <select name="type_of_leave_id" id="leave_type" class="form-control" required>
                                     @foreach ($leave_type as $leave )
                                             <option value="{{ $leave->id }}">{{ $leave->leave_type_name }}</option>
                                     @endforeach
@@ -47,7 +47,7 @@
                                 </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="requested_leave">Requested Leave</label>
-                                <input class="form-control" name="requested_leave" id="requested_leave" type="number" disabled>
+                                <input class="form-control" name="requested_leave" id="requested_leave" type="number" readonly>
                                 {{-- <div class="invalid-feedback">Enter a valid email.</div> --}}
                             </div>
                             <div class="col-md-6">

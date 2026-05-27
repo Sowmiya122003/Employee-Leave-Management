@@ -14,8 +14,10 @@
                 <div class="heading-actions">
                     <a class="btn btn-outline-secondary btn-sm" href="{{route('admin.dashboard')}}">
                         <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
-                    <a class="btn btn-outline-primary btn-sm" href="{{route('admin.add.employee')}}">
-                        Add Employee <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+                    @if(auth()->user()->role_id == 1)
+                        <a class="btn btn-outline-primary btn-sm" href="{{route('admin.add.employee')}}">
+                            Add Employee <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+                    @endif
                 </div>
             </div>
             <table class="table" id="employeetable">
