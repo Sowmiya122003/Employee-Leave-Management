@@ -223,7 +223,7 @@ class UserController extends Controller
     }
     public function deleteEmployee($id)
     {
-        if(auth()->user()-role_id== 1){
+        if(auth()->user()->role_id== 1){
         $user = User::find($id);
         // dd($user->toArray());
         $user->delete();
