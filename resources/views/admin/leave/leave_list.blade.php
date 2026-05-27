@@ -51,10 +51,13 @@
                                         id="status">{{ $leave->leave_status }}</span>
                                 </td>
                                 <td>
-                                    <a href="javascript:void(0)" class="badge text-bg-success approvebtn" data-id="{{ $leave->leave_request_id }}"
-                                    data-requested="{{ $leave->requested_leaves }}">Approve</a>
-                                    <a href="javascript:void(0)" class="badge text-bg-danger rejectbtn" data-id="{{ $leave->leave_request_id }}">Reject</a>
+                                    <a href="javascript:void(0)" class="badge text-bg-success approvebtn"
+                                        data-id="{{ $leave->leave_request_id }}"
+                                        data-requested="{{ $leave->requested_leaves }}">Approve</a>
+                                    <a href="javascript:void(0)" class="badge text-bg-danger rejectbtn"
+                                        data-id="{{ $leave->leave_request_id }}" style="margin-top: 5px;">Reject</a>
                                 </td>
+                                <td>-</td>
                             @elseif($leave->leave_status == 'approved')
                                 <td>
                                     <span class="badge text-bg-success">{{ $leave->leave_status }}</span>
@@ -62,6 +65,7 @@
                                 <td>
                                     <a href="javascript:void(0)" class="badge text-bg-danger rejectbtn">Reject</a>
                                 </td>
+                                <td>{{ $leave->action_time }}</td>
                             @elseif($leave->leave_status == 'rejected')
                                 <td>
                                     <span class="badge text-bg-danger">{{ $leave->leave_status }}</span>
@@ -69,13 +73,13 @@
                                 <td>
                                     <a href="javascript:void(0)" class="badge text-bg-success approvebtn">Approve</a>
                                 </td>
+                                <td>{{ $leave->action_time }}</td>
                             @else
                                 <td>
                                     <span class="badge text-bg-dark">{{ $leave->leave_status }}</span>
                                 </td>
-                                <td>--</td>
+                                <td>-</td>
                             @endif
-                            <td>{{ $leave->action_time }}</td>
                         </tr>
                     @endforeach
                 </tbody>
