@@ -13,10 +13,10 @@
                 </div>
                 <div class="heading-actions">
                     @if(auth()->user()->role_id == 1 )
-                        <a class="btn btn-outline-primary btn-sm" href="{{route('holidayform')}}">
+                        <a class="btn btn-outline-primary btn-sm" href="{{route('admin.holidayform')}}">
                             Add Holiday <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
                     @if(in_array(auth()->user()->role_id, [1,2]))
-                        <a class="btn btn-outline-primary" href="{{route('send.holiday.pdf')}}">Send to Employees </a>
+                        <a class="btn btn-outline-primary" href="{{route('admin.send.holiday.pdf')}}">Send to Employees </a>
                     @endif
                     @endif
                 </div>
@@ -47,7 +47,7 @@
 <script>
     $(document).ready(function(){
         $('#companyholiday').DataTable({
-            ajax:`{{ route('holiday.list') }}`,
+            ajax:`{{ route('manager.holiday.list') }}`,
             precessing: true,
             serverSide: true,
             columns: [

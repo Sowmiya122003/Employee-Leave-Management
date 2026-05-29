@@ -12,7 +12,7 @@
                     </div>
                 </div>
                 <div class="heading-actions">
-                    <a class="btn btn-outline-secondary btn-sm" href="{{route('admin.dashboard')}}">
+                    <a class="btn btn-outline-secondary btn-sm" href="{{route('dashboard')}}">
                         <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
                     @if(auth()->user()->role_id == 1)
                         <a class="btn btn-outline-primary btn-sm" href="{{route('admin.add.employee')}}">
@@ -59,7 +59,7 @@
 <script>
     $(document).ready(function(){
         $('#employeetable').DataTable({
-            ajax: `{{ route('team-list') }}`,
+            ajax: `{{ route('admin.team-list') }}`,
             processing: true,
             serverSide: true,
             columns: [

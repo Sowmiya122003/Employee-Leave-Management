@@ -12,7 +12,7 @@
                     </div>
                 </div>
                 <div class="heading-actions">
-                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('admin.dashboard') }}">
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('dashboard') }}">
                         <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
                 </div>
             </div>
@@ -26,6 +26,7 @@
                         <th>To</th>
                         <th>Requested Days</th>
                         <th style="text-align: left">Reason</th>
+                        <th>Attachments</th>
                         <th>Approved Leaves</th>
                         <th>Rejected Reason</th>
                         <th>Status</th>
@@ -43,6 +44,15 @@
                             <td>{{ $leave->to_date }}</td>
                             <td>{{ $leave->requested_leaves }}</td>
                             <td style="text-align: left">{{ $leave->leave_reason }}</td>
+                            @if ($leave->attachments)
+                                @php
+                                    $attachments = json_decode($leave->attachments, true);
+                                @endphp
+                                <td><a href="{{ asset($attachments) }}" target="_self"><i class="bi bi-file-image"></i></a>
+                                </td>
+                            @else
+                                <td>-</td>
+                            @endif
                             <td>{{ $leave->approved_leaves ?? '-' }}</td>
                             <td>{{ $leave->rejection_reason ?? '-' }}</td>
                             @if ($leave->leave_status == 'pending')
@@ -63,7 +73,8 @@
                                     <span class="badge text-bg-success">{{ $leave->leave_status }}</span>
                                 </td>
                                 <td>
-                                    <a href="javascript:void(0)" class="badge text-bg-danger rejectbtn">Reject</a>
+                                    <a href="javascript:void(0)" data-id="{{ $leave->leave_request_id }}"
+                                        class="badge text-bg-danger rejectbtn">Reject</a>
                                 </td>
                                 <td>{{ $leave->action_time }}</td>
                             @elseif($leave->leave_status == 'rejected')
@@ -71,7 +82,9 @@
                                     <span class="badge text-bg-danger">{{ $leave->leave_status }}</span>
                                 </td>
                                 <td>
-                                    <a href="javascript:void(0)" class="badge text-bg-success approvebtn">Approve</a>
+                                    <a href="javascript:void(0)" data-id="{{ $leave->leave_request_id }}"
+                                        data-requested="{{ $leave->requested_leaves }}"
+                                        class="badge text-bg-success approvebtn">Approve</a>
                                 </td>
                                 <td>{{ $leave->action_time }}</td>
                             @else
@@ -79,6 +92,7 @@
                                     <span class="badge text-bg-dark">{{ $leave->leave_status }}</span>
                                 </td>
                                 <td>-</td>
+                                <td>{{ $leave->action_time }}</td>
                             @endif
                         </tr>
                     @endforeach
@@ -96,7 +110,7 @@
 
                         <div class="modal-body">
                             <label class="form-label">Approved Leaves</label>
-                            <input type="number" name="approved" id="approvedLeaves" class="form-control" min="1">
+                            <input type="decimal" name="approved" id="approvedLeaves" class="form-control" min="0">
                         </div>
 
                         <div class="modal-footer">
@@ -151,15 +165,17 @@
             let requested_leaves = $(this).data('requested');
             $('#approvedLeaves').val('');
             $('#approvedLeaves').attr('max', requested_leaves);
-            $('#approveForm').attr('action', `/approved/${id}`);
+            $('#approveForm').attr('action', `/manager/approved/${id}`);
             $('#approveModal').modal('show');
+            console.log(id);
         });
 
         $(document).on('click', '.rejectbtn', function() {
             let id = $(this).data('id');
             $('#rejectReason').val('');
-            $('#rejectForm').attr('action', `/rejected/${id}`);
+            $('#rejectForm').attr('action', `/manager/rejected/${id}`);
             $('#rejectModal').modal('show');
+            console.log(id);
         });
     </script>
 @endpush

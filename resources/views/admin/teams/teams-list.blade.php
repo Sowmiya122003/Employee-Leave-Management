@@ -12,10 +12,10 @@
                     </div>
                 </div>
                 <div class="heading-actions">
-                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('admin.dashboard') }}">
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('dashboard') }}">
                         <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
                     @if (auth()->user()->role_id == 1)
-                        <a class="btn btn-outline-secondary btn-sm" href="{{ route('team.create.form') }}">
+                        <a class="btn btn-outline-secondary btn-sm" href="{{ route('admin.team.create.form') }}">
                             Create Teams <i class="bi bi-arrow-right" aria-hidden="true"></i> </a>
                     @endif
                 </div>
@@ -47,7 +47,7 @@
     <script>
         $(document).ready(function() {
             $('#teamlist').DataTable({
-                ajax: `{{ route('team.list') }}`,
+                ajax: `{{ route('admin.team.list') }}`,
                 processing: true,
                 serverSide: true,
                 columns: [{

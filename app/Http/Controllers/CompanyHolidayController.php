@@ -22,7 +22,7 @@ class CompanyHolidayController extends Controller
         if (auth()->user()->id == 1){
         return view('admin.holiday.company_holiday');
     }
-    return redirect()->route('holiday.list')->with('error','Access Denied');}
+    return redirect()->route('manager.holiday.list')->with('error','Access Denied');}
     public function holidayCreate(Request $request){
         $validate = $request->validate([
             'title'=>'required',
@@ -31,7 +31,7 @@ class CompanyHolidayController extends Controller
         ]);
         $validate['created_by'] = auth()->user()->id;
         $holiday = CompanyHoliday::create($validate);
-        return redirect()->route('admin.dashboard');
+        return redirect()->route('dashboard');
     }
     public function sendHolidayPdf(){
         if(auth()->user()->id == 1){
@@ -45,9 +45,9 @@ class CompanyHolidayController extends Controller
             foreach($users as $user){
                 Mail::to($user->email)->queue(new HolidayMail($path,$user->full_name));
             }
-            return redirect()->route('holiday.list')->with('success','Mail Sent Successfully');
+            return redirect()->route('manager.holiday.list')->with('success','Mail Sent Successfully');
         }
-        return redirect()->route('holiday.list')->with('error','Acess Denied!');
+        return redirect()->route('manager.holiday.list')->with('error','Acess Denied!');
 
     }
 }

@@ -12,7 +12,7 @@
                     </div>
                 </div>
                 <div class="heading-actions">
-                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('admin.dashboard') }}">
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('dashboard') }}">
                         <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
                 </div>
             </div>
@@ -20,7 +20,7 @@
                 <thead>
                     <tr>
                         <th>S.No</th>
-                        <th style="text-align: left">Name</th>
+                        {{-- <th style="text-align: left">Name</th> --}}
                         <th style="text-align: left">Leave Type</th>
                         <th>From</th>
                         <th>To</th>
@@ -34,7 +34,7 @@
                     @foreach ($leaves_pending as $leave)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td style="text-align: left">{{ $leave->full_name }}</td>
+                            {{-- <td style="text-align: left">{{ $leave->full_name }}</td> --}}
                             <td style="text-align: left">{{ $leave->leave_type_name }}</td>
                             <td>{{ $leave->from_date }}</td>
                             <td>{{ $leave->to_date }}</td>
@@ -45,7 +45,7 @@
                                 <span href="" class="badge text-bg-warning" id="status">{{ $leave->leave_status }}</span>
                             </td>
                             <td>
-                                <a href="{{ route('leave.cancel',$leave->leave_request_id) }}" class="badge text-bg-danger">Cancel</a>
+                                <a href="{{ route('employee.leave.cancel',$leave->leave_request_id) }}" onclick="return confirm('Do you want to cancl the leave request ?')" class="badge text-bg-danger">Cancel</a>
                             </td>
                             @elseif($leave->leave_status == 'approved')
                             <td>
@@ -61,6 +61,7 @@
                             <td>
                                 <span class="badge text-bg-dark">{{ $leave->leave_status }}</span>
                             </td>
+                            <td>-</td>
                             @endif
                         </tr>
                     @endforeach

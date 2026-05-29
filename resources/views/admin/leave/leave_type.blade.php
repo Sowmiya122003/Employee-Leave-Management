@@ -12,10 +12,10 @@
                     </div>
                 </div>
                 <div class="heading-actions">
-                    <a class="btn btn-outline-secondary btn-sm" href="{{route('admin.dashboard')}}">
+                    <a class="btn btn-outline-secondary btn-sm" href="{{route('dashboard')}}">
                         <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
                     @if(auth()->user()->role_id == 1)
-                    <a class="btn btn-outline-primary btn-sm" href="{{route('leave.type.form')}}">
+                    <a class="btn btn-outline-primary btn-sm" href="{{route('admin.leave.type.form')}}">
                         Add leave Type <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
                     @endif
                 </div>
@@ -51,7 +51,7 @@
 <script>
     $(document).ready(function(){
         $('#leavetype').DataTable({
-                ajax: `{{ route('leave.type') }}`,
+                ajax: `{{ route('employee.leave.type') }}`,
                 processing: true,
                 serverSide: true,
                 columns: [{

@@ -11,7 +11,7 @@
                     </div>
                 </div>
                 <div class="heading-actions">
-                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('admin.dashboard') }}">
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('dashboard') }}">
                         <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
                 </div>
             </div>
@@ -27,6 +27,7 @@
                         <th style="text-align: left">Reason</th>
                         <th>Status</th>
                         <th>Applied at</th>
+                        <th>Attachments</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -43,6 +44,14 @@
                             <td><a href="" class="badge text-bg-warning"
                                     id="status">{{ $leave->leave_status }}</a></td>
                             <td>{{ $leave->applied_at }}</td>
+                            @if ($leave->attachments)
+                            @php
+                                $attachments = json_decode($leave->attachments,true);
+                            @endphp
+                            <td><a href="{{ asset($attachments) }}" target="_self"><i class="bi bi-file-image"></i></a></td>
+                            @else
+                            <td>-</td>
+                            @endif
                             <td>
                                 <a href="javascript:void(0)" class="badge text-bg-success approvebtn"
                                     data-id="{{ $leave->leave_request_id }}"
@@ -66,7 +75,7 @@
 
                         <div class="modal-body">
                             <label class="form-label">Approved Leaves</label>
-                            <input type="number" name="approved" id="approvedLeaves" class="form-control" min="1">
+                            <input type="text" name="approved" id="approvedLeaves" class="form-control" min="0">
                         </div>
 
                         <div class="modal-footer">
@@ -121,14 +130,14 @@
             let requested_leaves = $(this).data('requested');
             $('#approvedLeaves').val('');
             $('#approvedLeaves').attr('max', requested_leaves);
-            $('#approveForm').attr('action', `/approved/${id}`);
+            $('#approveForm').attr('action', `/manager/approved/`);
             $('#approveModal').modal('show');
         });
 
         $(document).on('click', '.rejectbtn', function() {
             let id = $(this).data('id');
             $('#rejectReason').val('');
-            $('#rejectForm').attr('action', `/rejected/${id}`);
+            $('#rejectForm').attr('action', `/manager/rejected/`);
             $('#rejectModal').modal('show');
         });
     </script>

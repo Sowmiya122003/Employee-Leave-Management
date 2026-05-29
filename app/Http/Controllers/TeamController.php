@@ -32,7 +32,7 @@ class TeamController extends Controller
             'description' => 'nullable|string',
         ]);
         $team = Team::create($validate);
-        return redirect()->route('team.list');
+        return redirect()->route('admin.team.list');
     }
     public function teamList(Request $request)
     {

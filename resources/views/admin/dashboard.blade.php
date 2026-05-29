@@ -1,6 +1,5 @@
 @extends('layouts.master')
 @section('content')
-    <!-- <h1>{{ auth()->user()->full_name }}</h1> -->
     <main class="dashboard-content">
         <div class="container-fluid px-3 px-lg-4 py-4">
             <div class="page-heading">
@@ -58,7 +57,6 @@
                         </div>
                     </article>
                 </div>
-
                 <div class="col-12 col-sm-6 col-xl-3">
                     <article class="metric-card metric-danger">
                         <div class="metric-top">
@@ -74,25 +72,7 @@
 
             <section class="row g-3 mt-1">
                 <div class="col-12 col-xl-8">
-                    <div class="panel">
-                        <div class="panel-header">
-                            <div>
-                                <h2 class="h5 mb-1 section-title"><i class="bi bi-graph-up-arrow"
-                                        aria-hidden="true"></i><span>Sales Performance</span></h2>
-                                <p class="text-muted mb-0">Monthly revenue compared with operational targets.</p>
-                            </div>
-                            <a class="btn btn-light btn-sm" href="charts.html">View Details</a>
-                        </div>
-
-                        <div class="chart-bars" aria-label="Sales performance chart">
-                            <div class="chart-column bar-42"><span></span><small>Jan</small></div>
-                            <div class="chart-column bar-58"><span></span><small>Feb</small></div>
-                            <div class="chart-column bar-51"><span></span><small>Mar</small></div>
-                            <div class="chart-column bar-72"><span></span><small>Apr</small></div>
-                            <div class="chart-column bar-66"><span></span><small>May</small></div>
-                            <div class="chart-column bar-83"><span></span><small>Jun</small></div>
-                        </div>
-                    </div>
+                    <canvas id="userchart"></canvas>
                 </div>
 
                 <div class="col-12 col-xl-4" id="calendar">
@@ -118,7 +98,6 @@
                                     <th style="text-align: left" scope="col">Team</th>
                                     <th scope="col">Leaves Taken</th>
                                     <th scope="col">Joined</th>
-                                    {{-- <th scope="col" class="text-end">Action</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -188,12 +167,59 @@
                 weekends: true,
                 events: all_events,
             });
-            // calendar.setOption(['height', 500]);
-            // calendar.updateSize();
-            // console.log(calendar);
             calendar.render();
         })
-        
+        const role_id = {{ auth()->user()->role_id }};
+        let data;
+        if (role_id == 1 || role_id == 2) {
+             data = {
+                labels: @json($leavechart->pluck('type_name')),
+                datasets: [{
+                        label: 'Members took leave this month',
+                        data: @json($leavechart->pluck('members')),
+                    },
+                    {
+                        label: 'Leave taken Days',
+                        data: @json($leavechart->pluck('total')),
+                    }
+                ]
+            };
+        }
+        else{
+             data = {
+                labels : @json($leavechart->pluck('type_name')),
+                datasets : [{
+                    label : 'Leave taken this month',
+                    data : @json($leavechart->pluck('total')),
+                     barThickness: 75,
+                }]
+            }
+        };
+        const config = {
+            type: "bar",
+            data: data,
+            options: {
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        border: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false
+                        },
+                        border: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        }
+        const userchart = new Chart(document.getElementById('userchart'), config);
     </script>
 @endpush
 @push('styles')
@@ -216,6 +242,10 @@
 
         table {
             text-align: center;
+        }
+
+        #userchart {
+            height: 500px !important;
         }
     </style>
 @endpush

@@ -87,7 +87,7 @@ class AuthController extends Controller
             // dd($request->toArray());
             $user = User::where('email', $request->email)->first();
             // dd(auth()->user()->name);
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('dashboard');
         }
         return redirect()->route('login')->with('error', 'Incorrect Credentials');
     }

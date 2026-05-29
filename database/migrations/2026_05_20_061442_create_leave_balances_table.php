@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('leave_balances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('usesr_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users');
             $table->year('company_year');
             $table->unsignedInteger('total_leaves_taken');
             $table->unsignedInteger('unpaid_leaves')->default(0);

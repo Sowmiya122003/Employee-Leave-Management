@@ -16,8 +16,8 @@
                     <a class="btn btn-outline-secondary btn-sm" href="{{ route('manager.employee-list') }}">
                         <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Employee List</a>
                     @else
-                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('admin.team-list') }}">
-                        <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Team List</a>
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('dashboard') }}">
+                        <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
                     @endif
                 </div>
             </div>

@@ -12,7 +12,7 @@
                     </div>
                 </div>
                 <div class="heading-actions">
-                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('employee-list') }}">
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('manager.employee-list') }}">
                         <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Employee List</a>
                 </div>
             </div>
@@ -88,7 +88,7 @@
                             </div>
                         </div>
                         <div class="d-flex flex-wrap justify-content-end gap-2 mt-4">
-                            <a class="btn btn-outline-secondary" href="{{ route('admin.dashboard') }}">Cancel</a>
+                            <a class="btn btn-outline-secondary" href="{{ route('dashboard') }}">Cancel</a>
                             <button class="btn btn-primary" type="submit"><i class="bi bi-person-check"
                                     aria-hidden="true"></i> Update Employee</button>
                         </div>

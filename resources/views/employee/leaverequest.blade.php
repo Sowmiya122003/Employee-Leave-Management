@@ -12,28 +12,49 @@
                     </div>
                 </div>
                 <div class="heading-actions"><a class="btn btn-outline-secondary btn-sm"
-                        href="{{ route('admin.dashboard') }}"><i class="bi bi-arrow-left" aria-hidden="true"></i> Back to
+                        href="{{ route('dashboard') }}"><i class="bi bi-arrow-left" aria-hidden="true"></i> Back to
                         Dashboard</a></div>
             </div>
 
             <section class="row g-3">
                 <div class="col-12 col-xl-8">
-                    <form class="panel needs-validation" action="{{ route('employee.create.leave') }}" method="POST" enctype="multipart/form-data">
+                    <form class="panel needs-validation" action="{{ route('employee.create.leave') }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label" for="name">Name</label>
-                                <input class="form-control" id="name" type="text" name="full_name" value="{{ auth()->user()->full_name }}" readonly>
+                                <input class="form-control" id="name" type="text" name="full_name"
+                                    value="{{ auth()->user()->full_name }}" readonly>
                                 <div class="invalid-feedback">Name is required.</div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="leave_type">Type of Leave</label>
                                 <select name="type_of_leave_id" id="leave_type" class="form-control" required>
-                                    @foreach ($leave_type as $leave )
-                                            <option value="{{ $leave->id }}">{{ $leave->leave_type_name }}</option>
+                                    <option value="">Select</option>
+                                    @foreach ($leave_type as $leave)
+                                        <option value="{{ $leave->id }}">{{ $leave->leave_type_name }}</option>
                                     @endforeach
                                 </select>
                                 {{-- <div class="invalid-feedback">Gender is required.</div> --}}
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="leave_duration">Leave Duration</label>
+                                <select name="leave_duration" id="leave_duration" class="form-control" required>
+                                    <option value="">Select</option>
+                                    <option value="full-day">Full-Day</option>
+                                    <option value="half-day">Half-Day</option>
+                                </select>
+                                <div class="invalid-feedback">From date is required.</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="half_day_type">Half-Day-Type</label>
+                                <select name="half_day_type" id="half_day_type" class="form-control" disabled>
+                                    <option value="">Select</option>
+                                    <option value="full-day">First-Half</option>
+                                    <option value="half-day">Second-Half</option>
+                                </select>
+                                <div class="invalid-feedback">From date is required.</div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="from_date">from date</label>
@@ -41,13 +62,14 @@
                                 <div class="invalid-feedback">From date is required.</div>
                             </div>
                             <div class="col-md-6">
-                                    <label class="form-label" for="to_date">to date</label>
-                                    <input class="form-control" id="to_date" name="to_date" type="date" required>
-                                    <div class="invalid-feedback">To date is required.</div>
-                                </div>
+                                <label class="form-label" for="to_date">to date</label>
+                                <input class="form-control" id="to_date" name="to_date" type="date" required>
+                                <div class="invalid-feedback">To date is required.</div>
+                            </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="requested_leave">Requested Leave</label>
-                                <input class="form-control" name="requested_leave" id="requested_leave" type="number" readonly>
+                                <input class="form-control" name="requested_leave" id="requested_leave" type="number"
+                                    readonly>
                                 {{-- <div class="invalid-feedback">Enter a valid email.</div> --}}
                             </div>
                             <div class="col-md-6">
@@ -57,12 +79,13 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="attachment">Attachments</label>
-                                <input class="form-control" name="attachment" id="attachment" type="file">
+                                <input class="form-control" name="attachments" id="attachment" type="file"
+                                    accept="image/*">
                                 {{-- <div class="invalid-feedback">Enter a valid email.</div> --}}
                             </div>
                         </div>
                         <div class="d-flex flex-wrap justify-content-end gap-2 mt-4">
-                            <a class="btn btn-outline-secondary" href="{{ route('admin.dashboard') }}">Cancel</a>
+                            <a class="btn btn-outline-secondary" href="{{ route('dashboard') }}">Cancel</a>
                             <button class="btn btn-primary" type="submit" id="submitbutton"><i
                                     class="bi bi-person-check" aria-hidden="true"></i> Create Leave Request</button>
                         </div>
@@ -99,26 +122,56 @@
     </main>
 @endsection
 @push('scripts')
-<script>
-    $(document).ready(function(){
-        $('#from_date,#to_date').on('change',function(e){
-            let from_date = new Date($('#from_date').val());
-            let to_date = new Date($('#to_date').val());
-            let curent_date = new Date();
-            if (from_date < curent_date){
-                alert('Past Dates are not allowed ');
-                $('#from_date').val('');
-            }
-            else if(to_date < from_date){
-                alert('To date should be greater than or equal to From date');
-                $('#from_date').val('');
-                $('#to_date').val('');
-            }
-            else{
-                let requested = (to_date-from_date)/(1000*60*60*24)+1;
-                $('#requested_leave').val(requested);
-            }
-        });
-    })
-</script>
+    <script>
+        $(document).ready(function() {
+            $('#leave_duration').on('change', function(e) {
+                if ($(this).val() == 'half-day') {
+                    $('#half_day_type').prop('disabled', false);
+                    $('#half_day_type').prop('required', true);
+                    $('#to_date').prop('readonly',true);
+
+                    $('#from_date,#to_date').on('change', function(e) {
+                        let from_date = new Date($('#from_date').val());
+                        // let to_date = new Date($('#to_date').val());
+                        let curent_date = new Date();
+                        if (from_date < curent_date) {
+                            alert('Past Dates are not allowed ');
+                            $('#from_date').val('');
+                        }
+                        // else if (to_date < from_date) {
+                        //     alert('To date should be greater than or equal to From date');
+                        //     $('#from_date').val('');
+                        //     $('#to_date').val('');
+                        else {
+                            let requested = 0.5;
+                            $('#to_date').val($('#from_date').val());
+                            $('#requested_leave').val(requested);
+                        }
+                    })
+                }
+                else {
+                    $('#half_day_type').prop('disabled', true);
+                    $('half_day_type').prop('required', false);
+
+                    $('#from_date,#to_date').on('change', function(e) {
+                        let from_date = new Date($('#from_date').val());
+                        let to_date = new Date($('#to_date').val());
+                        let curent_date = new Date();
+                        if (from_date < curent_date) {
+                            alert('Past Dates are not allowed ');
+                            $('#from_date').val('');
+                        } else if (to_date < from_date) {
+                            alert('To date should be greater than or equal to From date');
+                            $('#from_date').val('');
+                            $('#to_date').val('');
+                        } else {
+                            let requested = (to_date - from_date) / (1000 * 60 * 60 * 24) + 1;
+                            $('#requested_leave').val(requested);
+                        }
+                    });
+                }
+            console.log($(this).val());
+            });
+        })
+    </script>
 @endpush
