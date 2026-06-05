@@ -10,14 +10,26 @@ class TeamController extends Controller
 {
     public function showTeam(Request $request)
     {
-        $teams = Team::leftJoin('users',function($join){
-            $join->on('users.team_id','=','teams.id')
-            ->where('users.role_id',2);
-            })
-            ->select('teams.id','teams.team_name','teams.description','users.full_name as manager')->get();
-        // dd($teams->toArray());
+        $teams = Team::with('manager')->leftJoin('users', 'users.team_id', '=', 'teams.id')->groupBy('teams.id', 'teams.team_name', 'teams.description')->selectRaw('teams.id,teams.team_name,teams.description,COUNT(users.id) as members')->get();
         if ($request->ajax()) {
-            return DataTables::of($teams)->toJson();
+            return DataTables::of($teams)
+                ->addColumn('Action', function ($row) {
+                    return "<a href = '" .
+                        route('admin.edit.team', $row->id) .
+                        "'><i class='bi bi-pencil'></i></a>
+                    <a href='" .
+                        route('admin.delete.team', $row->id) .
+                        "' onclick=\"return confirm('Do you want to delete?')\">
+                        <i class='bi bi-trash'></i></a>";
+                })
+                ->addColumn('manager', function ($row) {
+                    return $row->manager?->full_name ?? '-';
+                })
+                ->addColumn('checkbox', function ($row) {
+                    return "<input  type='checkbox' class='employee-checkbox' value=' . $row->id . '>";
+                })
+                ->rawColumns(['Action','checkbox'])
+                ->toJson();
         }
         return view('admin.teams.teams-list');
     }
@@ -38,9 +50,9 @@ class TeamController extends Controller
     {
         $teams = User::with('creator')
             ->where('team_id', auth()->user()->team_id)
+            ->where('users.role_id', 3)
             ->leftJoin('roles', 'users.role_id', '=', 'roles.id')
             ->select('users.*', 'roles.role_name as role_name');
-        // dd($teams->toArray());
         if ($request->ajax()) {
             return DataTables::of($teams)
                 ->editColumn('gender', function ($row) {
@@ -72,27 +84,59 @@ class TeamController extends Controller
                     }
                 })
                 ->addColumn('Action', function ($row) {
-                    if(auth()->user()->role_id == 1) {
-                    return "<a href = '" .
-                        route('admin.view.employee', $row->id) .
-                        "'><i class='bi bi-eye'></i></a>
-                    <a href = '" .
-                        route('admin.edit.employee', $row->id) .
-                        "'><i class='bi bi-pencil'></i></a>
-                    <a href='" .
-                        route('admin.delete.employee', $row->id) .
-                        "' onclick=\"return confirm('Do you want to delete?')\">
-                        <i class='bi bi-trash'></i></a>";
-                    }
-                    elseif(auth()->user()->role_id == 2) {
+                    if (auth()->user()->role_id == 1) {
                         return "<a href = '" .
-                        route('admin.view.employee', $row->id) .
-                        "'><i class='bi bi-eye'></i></a>";
+                            route('admin.view.employee', $row->id) .
+                            "'><i class='bi bi-eye'></i></a>
+                    <a href = '" .
+                            route('admin.edit.employee', $row->id) .
+                            "'><i class='bi bi-pencil'></i></a>
+                    <a href='" .
+                            route('admin.delete.employee', $row->id) .
+                            "' onclick=\"return confirm('Do you want to delete?')\">
+                        <i class='bi bi-trash'></i></a>";
+                    } elseif (auth()->user()->role_id == 2) {
+                        return "<a href = '" . route('admin.view.employee', $row->id) . "'><i class='bi bi-eye'></i></a>";
                     }
                 })
                 ->rawColumns(['gender', 'Action'])
                 ->toJson();
         }
         return view('manager.team-list', compact('teams'));
+    }
+    public function editTeam(string $id)
+    {
+        $team = Team::where('id', $id)->firstOrFail();
+        return view('admin.teams.edit-team', compact('team'));
+    }
+    public function updateTeam(string $id, Request $request)
+    {
+        $team = Team::findOrFail($id);
+        $team->update([
+            'team_name' => $request->team_name,
+            'description' => $request->description,
+        ]);
+        return redirect()->route('admin.team.list')->with('success', 'Team Updated Successfully!');
+    }
+    public function destroyTeam(string $id)
+    {
+        $team = Team::findOrFail($id);
+        $team->delete();
+        return redirect()->back()->with('success', 'Team Deleted Successfully!');
+    }
+    public function bulkDelete(Request $request){
+        if (auth()->user()->role_id == 1) {
+            $request->validate([
+                'ids' => 'required|array',
+                'ids.*' => 'exists:teams,id',
+            ]);
+
+            Team::whereIn('id', $request->ids)->delete();
+
+            return response()->json([
+                'message' => 'Selected holidays deleted successfully',
+            ]);
+        }
+        return redirect()->back()->with('error', 'Access Denied !');
     }
 }

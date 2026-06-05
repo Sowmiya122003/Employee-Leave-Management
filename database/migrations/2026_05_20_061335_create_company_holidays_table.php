@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->date('holiday_date');
-            $table->text('reason');
-            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete;
+            $table->text('reason')->nullable();
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }

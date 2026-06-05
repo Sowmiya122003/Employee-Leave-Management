@@ -13,7 +13,7 @@
                 <div class="heading-actions">
                     <a class="btn btn-light" href="{{ route('dashboard') }}">
                         <i  aria-hidden="true"></i>Back</a>
-                        <a href="{{ route('emp.leave.request') }}">
+                        <a href="{{ route('employee.leave.request') }}">
                                 <button class="btn btn-primary" id="createbutton">Request Leave</button></a>
                 </div>
             </div>
@@ -25,8 +25,7 @@
                         <th style="text-align: left">Leave Type</th>
                         <th>From</th>
                         <th>To</th>
-                        <th>Requested</th>
-                        <th>Unpaid</th>
+                        <th>Requested Days</th>
                         <th style="text-align: left">Reason</th>
                         <th>Status</th>
                         <th>Applied at</th>
@@ -43,7 +42,6 @@
                             <td>{{ $leave->from_date }}</td>
                             <td>{{ $leave->to_date }}</td>
                             <td>{{ $leave->requested_leaves }}</td>
-                            <td>{{ $leave->unpaid_leaves ?? '0.00' }}</td>
                             <td style="text-align: left">{{ $leave->leave_reason }}</td>
                             <td><a href="" class="badge text-bg-warning"
                                     id="status">{{ $leave->leave_status }}</a></td>

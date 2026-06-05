@@ -8,30 +8,30 @@
                     <div>
                         <p class="eyebrow mb-1">Management</p>
                         <h1 class="h3 mb-1">Employees and Managers List </h1>
-                        {{-- <p class="text-muted mb-0">Create a new user account with role and team assignments.</p> --}}
                     </div>
                 </div>
                 <div class="heading-actions">
-                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('dashboard') }}">
-                        <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
+                    <a class="btn btn-secondary " href="{{ route('dashboard') }}">
+                        <i aria-hidden="true"></i>Back</a>
                 </div>
             </div>
             <table class="table" id="employeetable">
                 <thead>
                     <tr>
-                        <th>S.No</th>
-                        <th style="text-align: left">Name</th>
-                        <th style="text-align: left">Leave Type</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Requested Days</th>
-                        <th style="text-align: left">Reason</th>
-                        <th>Attachments</th>
-                        <th>Approved Leaves</th>
-                        <th>Rejected Reason</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                        <th>Action time</th>
+                        <th style="width: 3%">S.No</th>
+                        <th style="width: 10%; text-align: left;">Name</th>
+                        <th style="width: 10%;text-align: left;">Leave Type</th>
+                        <th style="width: 7%">From</th>
+                        <th style="width: 7%">To</th>
+                        <th style="width: 8%">Requested</th>
+                        <th style="width: 8%">Unpaid</th>
+                        <th style="width: 10%;text-align: left;">Reason</th>
+                        {{-- <th>Attachments</th> --}}
+                        <th style="width: 8%">Approved</th>
+                        <th style="width: 10%;text-align: left;">Rejected Reason</th>
+                        <th style="width: 6%">Status</th>
+                        <th style="width: 6%">Action</th>
+                        <th style="width: 7%">Action time</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,8 +43,9 @@
                             <td>{{ $leave->from_date }}</td>
                             <td>{{ $leave->to_date }}</td>
                             <td>{{ $leave->requested_leaves }}</td>
+                            <td>{{ $leave->unpaid_leaves ?? '0.00'}}</td>
                             <td style="text-align: left">{{ $leave->leave_reason }}</td>
-                            @if ($leave->attachments)
+                            {{-- @if ($leave->attachments)
                                 @php
                                     $attachments = json_decode($leave->attachments, true);
                                 @endphp
@@ -52,7 +53,7 @@
                                 </td>
                             @else
                                 <td>-</td>
-                            @endif
+                            @endif --}}
                             <td>{{ $leave->approved_leaves ?? '-' }}</td>
                             <td>{{ $leave->rejection_reason ?? '-' }}</td>
                             @if ($leave->leave_status == 'pending')
@@ -110,7 +111,8 @@
 
                         <div class="modal-body">
                             <label class="form-label">Approved Leaves</label>
-                            <input type="decimal" name="approved" id="approvedLeaves" class="form-control" min="0">
+                            <input type="number" name="approved" id="approvedLeaves" min="0.5" step="0.5"
+                                class="form-control">
                         </div>
 
                         <div class="modal-footer">
@@ -151,9 +153,16 @@
             margin-left: 10px;
         }
 
-        .table {
-            text-align: center;
+        table {
+            table-layout: fixed;
             width: 100%;
+            text-align: center;
+        }
+        td,
+        th {
+            white-space: normal;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
         }
     </style>
 @endpush

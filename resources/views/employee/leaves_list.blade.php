@@ -12,8 +12,10 @@
                     </div>
                 </div>
                 <div class="heading-actions">
-                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('dashboard') }}">
-                        <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
+                    <a class="btn btn-light" href="{{ route('dashboard') }}">
+                        <i aria-hidden="true"></i>Back</a>
+                    <a href="{{ route('emp.leave.request') }}">
+                        <button class="btn btn-primary" id="createbutton">Request Leave</button></a>
                 </div>
             </div>
             <table class="table" id="employeetable">
@@ -25,6 +27,7 @@
                         <th>From</th>
                         <th>To</th>
                         <th>Requested Days</th>
+                        <th>Approved Days</th>
                         <th style="text-align: left">Reason</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -39,29 +42,33 @@
                             <td>{{ $leave->from_date }}</td>
                             <td>{{ $leave->to_date }}</td>
                             <td>{{ $leave->requested_leaves }}</td>
+                            <td>{{ $leave->approved_leaves }}</td>
                             <td style="text-align: left">{{ $leave->leave_reason }}</td>
                             @if ($leave->leave_status == 'pending')
-                            <td>
-                                <span href="" class="badge text-bg-warning" id="status">{{ $leave->leave_status }}</span>
-                            </td>
-                            <td>
-                                <a href="{{ route('employee.leave.cancel',$leave->leave_request_id) }}" onclick="return confirm('Do you want to cancl the leave request ?')" class="badge text-bg-danger">Cancel</a>
-                            </td>
+                                <td>
+                                    <span href="" class="badge text-bg-warning"
+                                        id="status">{{ $leave->leave_status }}</span>
+                                </td>
+                                <td>
+                                    <a href="{{ route('employee.leave.cancel', $leave->leave_request_id) }}"
+                                        onclick="return confirm('Do you want to cancl the leave request ?')"
+                                        class="badge text-bg-danger">Cancel</a>
+                                </td>
                             @elseif($leave->leave_status == 'approved')
-                            <td>
-                                <span class="badge text-bg-success">{{ $leave->leave_status }}</span>
-                            </td>
-                            <td>-</td>
-                            @elseif($leave->status == 'rejected')
-                            <td>
-                                <span class="badge text-bg-danger">{{ $leave->leave_status }}</span>
-                            </td>
-                            <td>-</td>
+                                <td>
+                                    <span class="badge text-bg-success">{{ $leave->leave_status }}</span>
+                                </td>
+                                <td>-</td>
+                            @elseif($leave->leave_status == 'rejected')
+                                <td>
+                                    <span class="badge text-bg-danger">{{ $leave->leave_status }}</span>
+                                </td>
+                                <td>-</td>
                             @else
-                            <td>
-                                <span class="badge text-bg-dark">{{ $leave->leave_status }}</span>
-                            </td>
-                            <td>-</td>
+                                <td>
+                                    <span class="badge text-bg-dark">{{ $leave->leave_status }}</span>
+                                </td>
+                                <td>-</td>
                             @endif
                         </tr>
                     @endforeach
@@ -71,16 +78,16 @@
     </main>
 @endsection
 @push('styles')
-<style>
-    #btn2{
-        margin-left: 10px;
-    }
-    .table{
-        text-align: center;
-        width: 100%;
-    }
-</style>
+    <style>
+        #btn2 {
+            margin-left: 10px;
+        }
+
+        .table {
+            text-align: center;
+            width: 100%;
+        }
+    </style>
 @endpush
 @push('scripts')
 @endpush
-

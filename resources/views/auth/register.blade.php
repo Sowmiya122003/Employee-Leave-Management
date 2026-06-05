@@ -9,13 +9,12 @@
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body class="auth-body">
     <main class="auth-page">
         <section class="auth-card">
-            {{-- <a class="auth-brand" href="index.html"><span class="brand-icon"><i class="bi bi-grid-1x2-fill" aria-hidden="true"></i></span><span><strong>adminHMD</strong><small>Create your adminHMD account.</small></span></a>
-      <div class="auth-visual"><img src="{{asset('images/png/dasher-ui-bootstrap-5.jpg')}}" alt="adminHMD dashboard interface"></div> --}}
             <form class="needs-validation" method="POST" action="{{ route('register.submit') }}">
                 @csrf
                 <div class="mb-4">
@@ -55,11 +54,15 @@
                         <option value="M">Male</option>
                         <option value="O">Others</option>
                     </select>
-                    <!-- <div class="invalid-feedback">Enter a valid phone number.</div> -->
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="registerPassword">Password</label>
-                    <input class="form-control" id="registerPassword" type="password" minlength="6" name="password" required>
+                    <div class="position-relative">
+                        <input class="form-control" id="registerPassword" type="password" minlength="6" name="password"
+                            required>
+                        <i class="bi bi-eye position-absolute" id="togglePassword"
+                            style="right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer;"></i>
+                    </div>
                     <div class="invalid-feedback">Password must be at least 6 characters.</div>
                 </div>
                 <div class="form-check mb-4">
@@ -70,23 +73,35 @@
                 <button class="btn btn-primary w-100" type="submit"><i class="bi bi-person-plus"
                         aria-hidden="true"></i> Create Account</button>
             </form>
-
             <div class="auth-footer">Already have an account? <a href="{{ route('login') }}">Sign in</a></div>
         </section>
     </main>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-            <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-            @if (session('error'))
-                <script>
-                    toastr.error("{{ session('error') }}");
-                </script>
-            @elseif(session('success'))
-                <script>
-                    toastr.success("{{ session('success') }}")
-                </script>
-            @endif
+    @if (session('error'))
+        <script>
+            toastr.error("{{ session('error') }}");
+        </script>
+    @elseif(session('success'))
+        <script>
+            toastr.success("{{ session('success') }}")
+        </script>
+    @endif
+    <script>
+        $(document).on('click', '#togglePassword', function() {
+            let password = $('#registerPassword');
+
+            if (password.attr('type') === 'password') {
+                password.attr('type', 'text');
+                $(this).removeClass('bi-eye').addClass('bi-eye-slash');
+            } else {
+                password.attr('type', 'password');
+                $(this).removeClass('bi-eye-slash').addClass('bi-eye');
+            }
+        });
+    </script>
 </body>
 
 </html>

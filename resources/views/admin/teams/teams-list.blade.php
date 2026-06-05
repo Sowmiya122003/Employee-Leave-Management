@@ -7,39 +7,35 @@
                     <span class="page-icon"><i class="bi bi-person-plus" aria-hidden="true"></i></span>
                     <div>
                         <p class="eyebrow mb-1">Management</p>
-                        <!-- <h1 class="h3 mb-1">Employees and Managers List </h1> -->
-                        <!-- {{-- <p class="text-muted mb-0">Create a new user account with role and team assignments.</p> --}} -->
                     </div>
                 </div>
                 <div class="heading-actions">
-                    <a class="btn btn-outline-secondary btn-sm" href="{{ route('dashboard') }}">
-                        <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
+                    <a class="btn btn-secondary" href="{{ route('dashboard') }}">
+                        <i aria-hidden="true"></i> Back </a>
                     @if (auth()->user()->role_id == 1)
-                        <a class="btn btn-outline-secondary btn-sm" href="{{ route('admin.team.create.form') }}">
-                            Create Teams <i class="bi bi-arrow-right" aria-hidden="true"></i> </a>
+                        <a class="btn btn-primary" href="{{ route('admin.team.create.form') }}">
+                            Create Teams <i aria-hidden="true"></i> </a>
                     @endif
                 </div>
             </div>
-            <table class="table" id="teamlist">
-                <thead>
-                    <tr>
-                        <th>S.No</th>
-                        <th>Team</th>
-                        <th>Manager</th>
-                        <th>Team Description</th>
-                    </tr>
-                </thead>
-                {{-- <tbody>
-                    @foreach ($teams as $singleteam)
+            <div>
+                <button type="button" id="bulk-delete" class="btn btn-danger">Delete</button>
+            </div>
+            <div class="d-flex justify-content-center">
+                <table class="table" id="teamlist">
+                    <thead>
                         <tr>
-                            <th>{{ $singleteam->id }}</th>
-                            <th>{{ $singleteam->team_name }}</th>
-                            <th>{{ $singleteam->manager?->full_name ?? 'No Manager' }}</th>
-                            <th>{{ $singleteam->description }}</th>
+                            <th><input type="checkbox" name="" id="select-all"></th>
+                            <th>S.No</th>
+                            <th>Team</th>
+                            <th>Manager</th>
+                            <th>Team Description</th>
+                            <th>Members</th>
+                            <th>Action</th>
                         </tr>
-                    @endforeach
-                </tbody> --}}
-            </table>
+                    </thead>
+                </table>
+            </div>
         </div>
     </main>
 @endsection()
@@ -51,6 +47,11 @@
                 processing: true,
                 serverSide: true,
                 columns: [{
+                        name: 'checkbox',
+                        data: 'checkbox',
+                        orderable: false,
+                        searchable: false
+                    }, {
                         data: null,
                         name: 's_no',
                         orderable: false,
@@ -66,14 +67,60 @@
                     {
                         name: 'manager',
                         data: 'manager',
-                        defaultContent: 'N/A'
+                        defaultContent: '-'
                     },
                     {
                         name: 'description',
                         data: 'description',
                     },
+                    {
+                        name: 'members',
+                        data: 'members'
+                    },
+                    {
+                        name: 'Action',
+                        data: 'Action'
+                    },
                 ]
             })
-        })
+        });
+        $(document).on('change', '#select-all', function() {
+            $('.employee-checkbox').prop('checked', $(this).prop('checked'));
+        });
+
+        function getSelectedEmployees() {
+            let ids = [];
+
+            $('.employee-checkbox:checked').each(function() {
+                ids.push($(this).val());
+            });
+
+            return ids;
+        }
+        $('#bulk-delete').click(function() {
+            let ids = getSelectedEmployees();
+
+            if (ids.length === 0) {
+                alert('Please select employees');
+                return;
+            }
+
+            if (!confirm('Do you want to delete selected employees?')) {
+                return;
+            }
+
+            $.ajax({
+                url: "{{ route('admin.team.bulk-delete') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    ids: ids
+                },
+                success: function(response) {
+                    alert(response.message);
+                    $('#employeetable').DataTable().ajax.reload();
+                }
+            });
+        });
     </script>
 @endpush

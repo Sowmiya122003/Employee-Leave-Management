@@ -4,15 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class LeaveBalance extends Model
+class LeaveMonthlyBalance extends Model
 {
     protected $fillable = [
         'user_id',
         'type_of_leave_id',
         'company_year',
+        'month',
         'allocated_leaves',
-        'total_leaves_taken',
+        'used_leaves',
         'unpaid_leaves',
-        'carry_forward_days',
+        'carry_forward_days'
     ];
 }

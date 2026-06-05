@@ -11,9 +11,7 @@
                         <p class="text-muted mb-0">Create a new user account with role and team assignments.</p>
                     </div>
                 </div>
-                <div class="heading-actions"><a class="btn btn-outline-secondary btn-sm"
-                        href="{{ route('dashboard') }}"><i class="bi bi-arrow-left" aria-hidden="true"></i> Back to
-                        Dashboard</a></div>
+                <div class="heading-actions"><a class="btn btn-secondary " href="{{ route('dashboard') }}">Back</a></div>
             </div>
 
             <section class="row g-3">
@@ -58,14 +56,14 @@
                                 <label class="form-label" for="role_id">Role</label>
                                 <select class="form-select" name="role_id" id="role_id" required>
                                     <option value="">Choose role</option>
-                                     <option value="1">Admin</option>
+                                    <option value="1">Admin</option>
                                     <option value="2">Manager</option>
                                     <option value="3">Employee</option>
                                 </select>
                                 <div class="invalid-feedback">Choose a role.</div>
                             </div>
                             <div class="col-md-6"><label class="form-label" for="team_id">Team</label>
-                                <select class="form-select" id="team_id" name="team_id" >
+                                <select class="form-select" id="team_id" name="team_id">
                                     <option value="">Choose team</option>
                                     @foreach ($teams as $singleteam)
                                         <option value="{{ $singleteam->id }}">{{ $singleteam->team_name }}</option>
@@ -78,7 +76,7 @@
                             </div>
                         </div>
                         <div class="d-flex flex-wrap justify-content-end gap-2 mt-4">
-                            <a class="btn btn-outline-secondary" href="{{ route('dashboard') }}">Cancel</a>
+                            <a class="btn btn-outline-secondary" href="{{ route('manager.employee-list') }}">Cancel</a>
                             <button class="btn btn-primary" type="submit" id="submitbutton"><i
                                     class="bi bi-person-check" aria-hidden="true"></i> Create User</button>
                         </div>
@@ -103,7 +101,7 @@
                             </div>
                             <div class="activity-item"><span class="activity-dot bg-warning"></span>
                                 <div>
-                                    <p class="mb-1 fw-semibold">Send invite</p>
+                                    <p class="mb-1 fw-semibold">Send Email</p>
                                     <p class="text-muted small mb-0">Users receive activation by email.</p>
                                 </div>
                             </div>
@@ -115,4 +113,21 @@
     </main>
 @endsection
 @push('scripts')
-@endpush
+    <script>
+        $(document).ready(function() {
+
+            function toggleTeamField() {
+                let role = $('#role_id').val();
+                if (role == '1') {
+                    $('#team_id').prop('disabled', true).prop('required', false).val('');
+                } else {
+                    $('#team_id').prop('disabled', false).prop('required', true);
+                }
+            }
+            toggleTeamField();
+            $('#role_id').change(function() {
+                toggleTeamField();
+            });
+        });
+    </script>
+@endpush()

@@ -12,10 +12,10 @@
                     </div>
                 </div>
                 <div class="heading-actions">
-                    <a class="btn btn-outline-secondary btn-sm" href="{{route('dashboard')}}">
-                        <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
+                    <a class="btn btn-secondary" href="{{route('dashboard')}}">
+                        <i aria-hidden="true"></i> Back </a>
                     @if(auth()->user()->role_id == 1)
-                        <a class="btn btn-outline-primary btn-sm" href="{{route('admin.add.employee')}}">
+                        <a class="btn btn-primary " href="{{route('admin.add.employee')}}">
                             Add Employee <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
                     @endif
                 </div>
@@ -23,6 +23,7 @@
             <table class="table" id="employeetable">
                 <thead>
                     <tr>
+                        {{-- <th><input type="checkbox" name="" id="bulkdelete"></th> --}}
                         <th>Name</th>
                         <th>Email</th>
                         <th>Phone</th>

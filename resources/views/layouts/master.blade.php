@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.18/index.global.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.8/css/dataTables.dataTables.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 </head>
 
@@ -38,54 +39,74 @@
                 </a>
                 @if (auth()->user()->role_id == 1)
                     <a class="nav-link {{ request()->routeIs('manager.employee-list') ? 'active' : '' }}"
-                    {{ request()->routeIs('manager.employee-list') ? 'aria-current=page' : '' }} href="{{ route('manager.employee-list') }}">
+                        {{ request()->routeIs('manager.employee-list') ? 'aria-current=page' : '' }}
+                        href="{{ route('manager.employee-list') }}">
                         <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
                         <span class="nav-text">Employees</span>
                     </a>
                     <a class="nav-link {{ request()->routeIs('employee.leave.requests') ? 'active' : '' }}"
-                    {{ request()->routeIs('employee.leave.requests') ? 'aria-current=page' : '' }} href="{{ route('employee.leave.requests') }}">
+                        {{ request()->routeIs('employee.leave.requests') ? 'aria-current=page' : '' }}
+                        href="{{ route('employee.leave.requests') }}">
                         <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
-                        <span class="nav-text">Leave  Request List </span>
+                        <span class="nav-text">Leave Request List </span>
+                    </a>
+                    <a class="nav-link {{ request()->routeIs('manager.leave.balances') ? 'active' : '' }}"
+                        {{ request()->routeIs('manager.leave.balances') ? 'aria-current=page' : '' }}
+                        href="{{ route('manager.leave.balances') }}">
+                        <span class="nav-icon"><i class="bi bi-calendar-check" aria-hidden="true"></i></span>
+                        <span class="nav-text">Leave Balances</span>
                     </a>
                 @elseif(auth()->user()->role_id == 2)
                     <a class="nav-link {{ request()->routeIs('admin.team-list') ? 'active' : '' }}"
-                    {{ request()->routeIs('admin.team-list') ? 'aria-current=page' : '' }} href="{{ route('admin.team-list') }}">
+                        {{ request()->routeIs('admin.team-list') ? 'aria-current=page' : '' }}
+                        href="{{ route('admin.team-list') }}">
                         <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
                         <span class="nav-text">Team Members</span>
                     </a>
                     <a class="nav-link {{ request()->routeIs('employee.leave.requests') ? 'active' : '' }}"
-                    {{ request()->routeIs('employee.leave.requests') ? 'aria-current=page' : '' }} href="{{ route('employee.leave.requests') }}">
+                        {{ request()->routeIs('employee.leave.requests') ? 'aria-current=page' : '' }}
+                        href="{{ route('employee.leave.requests') }}">
                         <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
                         <span class="nav-text">Leave Requests</span>
                     </a>
+                    <a class="nav-link {{ request()->routeIs('manager.leave.balances') ? 'active' : '' }}"
+                        {{ request()->routeIs('manager.leave.balances') ? 'aria-current=page' : '' }}
+                        href="{{ route('manager.leave.balances') }}">
+                        <span class="nav-icon"><i class="bi bi-calendar-check" aria-hidden="true"></i></span>
+                        <span class="nav-text">Leave Balances</span>
+                    </a>
                 @endif
                 <a class="nav-link {{ request()->routeIs('manager.holiday.list') ? 'active' : '' }}"
-                    {{ request()->routeIs('manager.holiday.list') ? 'aria-current=page' : '' }} href="{{ route('manager.holiday.list') }}">
-                        <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
-                        <span class="nav-text">Company Holidays</span>
-                    </a>
+                    {{ request()->routeIs('manager.holiday.list') ? 'aria-current=page' : '' }}
+                    href="{{ route('manager.holiday.list') }}">
+                    <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+                    <span class="nav-text">Company Holidays</span>
+                </a>
                 @if (auth()->user()->role_id == 1)
                     <a class="nav-link {{ request()->routeIs('admin.team.list') ? 'active' : '' }}"
-                    {{ request()->routeIs('admin.team.list') ? 'aria-current=page' : '' }} href="{{ route('admin.team.list') }}">
+                        {{ request()->routeIs('admin.team.list') ? 'aria-current=page' : '' }}
+                        href="{{ route('admin.team.list') }}">
                         <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
                         <span class="nav-text">Teams</span>
                     </a>
                 @endif
-                    <a class="nav-link {{ request()->routeIs('employee.leave.type') ? 'active' : '' }}"
-                    {{ request()->routeIs('employee.leave.type') ? 'aria-current=page' : '' }} href="{{ route('employee.leave.type') }}">
-                        <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
-                        <span class="nav-text">Leave Types</span>
-                    </a>
+                <a class="nav-link {{ request()->routeIs('employee.leave.type') ? 'active' : '' }}"
+                    {{ request()->routeIs('employee.leave.type') ? 'aria-current=page' : '' }}
+                    href="{{ route('employee.leave.type') }}">
+                    <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+                    <span class="nav-text">Leave Types</span>
+                </a>
                 @if (auth()->user()->role_id == 3)
                     <a class="nav-link {{ request()->routeIs('employee.leave.requests') ? 'active' : '' }}"
-                    {{ request()->routeIs('employee.leave.requests') ? 'aria-current=page' : '' }} href="{{ route('employee.leave.requests') }}">
+                        {{ request()->routeIs('employee.leave.requests') ? 'aria-current=page' : '' }}
+                        href="{{ route('employee.leave.requests') }}">
                         <span class="nav-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
                         <span class="nav-text">Leave Requests</span>
                     </a>
                 @endif
             </nav>
 
-            <div class="sidebar-user">
+            <div class="sidebar-user" style="margin-top: 240px;">
                 <img class="avatar-img avatar-md sidebar-user-avatar" src="{{ asset('images/avatar/avatar-5.jpg') }}"
                     alt="avatar">
                 <h6>{{ auth()->user()->full_name }}</h6>
@@ -125,18 +146,17 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-end notification-menu">
                                 <div class="dropdown-header fw-bold text-body">Notifications</div>
-                                <a class="dropdown-item" href="users.html">
-                                    <span class="notification-title">New user registered</span>
-                                    <span class="notification-time">4 minutes ago</span>
-                                </a>
-                                <a class="dropdown-item" href="charts.html">
-                                    <span class="notification-title">Revenue target reached</span>
-                                    <span class="notification-time">32 minutes ago</span>
-                                </a>
-                                <a class="dropdown-item" href="settings.html">
-                                    <span class="notification-title">Security review completed</span>
-                                    <span class="notification-time">1 hour ago</span>
-                                </a>
+                                @forelse (auth()->user()->unreadNotifications as $notification)
+                                    <a class="dropdown-item" href="{{ route('employee.leave.requests') }}">
+                                        <span class="notification-title">{{ $notification->data['message'] }}</span>
+                                        <span
+                                            class="notification-time">{{ $notification->created_at->diffForHumans() }}</span>
+                                    </a>
+                                @empty
+                                    <div class="dropdown-item text-muted">
+                                        No notifications
+                                    </div>
+                                @endforelse
                             </div>
                         </div>
 
@@ -150,9 +170,11 @@
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
                                     @if (auth()->user()->role_id == 3)
-                                        <a href="{{ route('employee.profile',auth()->user()->id) }}" class="dropdown-item">Profile</a>
+                                        <a href="{{ route('employee.profile', auth()->user()->id) }}"
+                                            class="dropdown-item">Profile</a>
                                     @else
-                                        <a class="dropdown-item" href="{{ route('admin.view.employee', auth()->user()->id) }}">Profile</a>
+                                        <a class="dropdown-item"
+                                            href="{{ route('admin.view.employee', auth()->user()->id) }}">Profile</a>
                                     @endif
                                 </li>
                                 <li>
@@ -173,9 +195,15 @@
             <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.18/index.global.min.js"></script>
             <script src="https://cdn.datatables.net/2.3.8/js/dataTables.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+            <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
             @if (session('error'))
                 <script>
                     toastr.error("{{ session('error') }}");
+                </script>
+            @elseif(session('warning'))
+                <script>
+                    toastr.warning("{{ session('warning') }}")
                 </script>
             @elseif(session('success'))
                 <script>

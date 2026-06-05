@@ -8,49 +8,36 @@
                     <div>
                         <p class="eyebrow mb-1">Management</p>
                         <h1 class="h3 mb-1">Leave Types List</h1>
-                        {{-- <p class="text-muted mb-0">Create a new user account with role and team assignments.</p> --}}
                     </div>
                 </div>
                 <div class="heading-actions">
-                    <a class="btn btn-outline-secondary btn-sm" href="{{route('dashboard')}}">
-                        <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Dashboard</a>
-                    @if(auth()->user()->role_id == 1)
-                    <a class="btn btn-outline-primary btn-sm" href="{{route('admin.leave.type.form')}}">
-                        Add leave Type <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+                    @if (auth()->user()->role_id == 1)
+                        <a class="btn btn-primary" href="{{ route('admin.leave.type.form') }}">
+                            Add leave Type <i aria-hidden="true"></i></a>
                     @endif
                 </div>
             </div>
-            <table class="table" style="text-align: center" id="leavetype">
+            <table class="table" id="leavetype">
                 <thead>
                     <tr>
+                        <th>S.No</th>
                         <th>Leave Type</th>
                         <th>Per Month</th>
                         <th>Per Year</th>
                         <th>Carry Forward(Month)</th>
                         <th>Carry Forward(Year)</th>
                         <th>Added By </th>
+                        <th>Action</th>
                     </tr>
                 </thead>
-                {{-- <tbody>
-                    @foreach($leave_type as $leave)
-                        <tr>
-                            <td style="text-align: left">{{ $leave->leave_type_name?? 'N/A'}}</td>
-                            <td>{{ $leave->per_month ?? 'N?A'}}</td>
-                            <td>{{ $leave->per_year ?? 'N?A'}}</td>
-                            <td>{{ $leave->monthly_carry_forward ?? 'N/A'}}</td>
-                            <td>{{ $leave->yearly_carry_forward ?? 'N/A'}}</td>
-                            <td style="text-align: left">{{ $leave->creator?->full_name ?? 'N/A'}}</td>
-                        </tr>
-                    @endforeach
-                </tbody> --}}
             </table>
         </div>
     </main>
 @endsection
 @push('scripts')
-<script>
-    $(document).ready(function(){
-        $('#leavetype').DataTable({
+    <script>
+        $(document).ready(function() {
+            $('#leavetype').DataTable({
                 ajax: `{{ route('employee.leave.type') }}`,
                 processing: true,
                 serverSide: true,
@@ -70,7 +57,6 @@
                     {
                         name: 'per_month',
                         data: 'per_month',
-                        // defaultContent: 'N/A'
                     },
                     {
                         name: 'per_year',
@@ -88,8 +74,33 @@
                         name: 'users.full_name',
                         data: 'name',
                     },
+                    {
+                        name: 'Action',
+                        data: 'Action'
+                    }
                 ]
             })
-    })
-</script>
+        })
+    </script>
+@endpush
+@push('styles')
+    <style>
+        .action-icon {
+            text-decoration: none;
+            margin-right: 8px;
+            font-size: 16px;
+        }
+        .edit-icon {
+            color: #000000;
+        }
+        .edit-icon:hover {
+            color: #84b0f2;
+        }
+        .delete-icon {
+            color: #dc3545;
+        }
+        .delete-icon:hover {
+            color: #bb2d3b;
+        }
+    </style>
 @endpush
